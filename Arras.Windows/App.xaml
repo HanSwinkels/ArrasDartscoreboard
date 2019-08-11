@@ -3,5 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Arras.Windows">
-
+    <Application.Resources>
+        <SolidColorBrush Color="#FFF44336"   x:Name="primaryColor" />
+        <SolidColorBrush Color="#FFD32F2F"   x:Name="primaryDarkColor" />
+        <SolidColorBrush Color="#FF448AFF"   x:Name="accentColor" />
+        <SolidColorBrush Color="#FFF1F5F8"   x:Name="backgroundColor" />
+        <SolidColorBrush Color="#FFFFFFFF"   x:Name="whiteColor" />
+        <SolidColorBrush Color="#FF575757"   x:Name="textColor" />
+        <SolidColorBrush Color="#FFBDBDBD"   x:Name="secondaryTextColor" />
+        <SolidColorBrush Color="#66000000"   x:Name="overlayColor" />
+        <SolidColorBrush Color="#FFF3F3F3"   x:Name="bottomBarColor" />
+    </Application.Resources>
 </Application>
