@@ -6,27 +6,61 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource backgroundColor}">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <!--TOP ROW - SCORE ITEMS-->
-        <Grid Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".5*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Viewbox></Viewbox>
-        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2.7*"/>
+        </Grid.ColumnDefinitions>
 
-        <!--BOTTOM ROW - STATS AND KEYBOARD -->
-        <Grid Row="0">
+        <!--Menu item -->
+        <Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
+            <ScrollViewer>
+                <StackPanel Margin="40,24,40,12" Grid.Row="2" Name="menu">
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="Home_Tapped" Background="White">
+                            <TextBlock Text="Home" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="Match_Tapped" Background="White">
+                            <TextBlock Text="Match" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="Challenge_Tapped" Background="White">
+                            <TextBlock Text="Cricket" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="History_Tapped" Background="White">
+                            <TextBlock Text="History" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="Profiles_Tapped" Background="White">
+                            <TextBlock Text="Profiles" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="Purchases_Tapped" Background="White">
+                            <TextBlock Text="Purchases" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
+                        <Grid Tapped="About_Tapped" Background="White">
+                            <TextBlock Text="About" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Frame>
 
-        </Grid>
+        <!-- Info item -->
+        <Frame x:Name="infoItem" HorizontalAlignment="Stretch" Grid.Column="1">
+
+        </Frame>
     </Grid>
 </Page>
