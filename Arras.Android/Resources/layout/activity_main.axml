@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:tabIndicatorColor="@color/colorWhite"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <include
+            android:id="@+id/scoretab"
+            layout="@layout/fragment_tab_score"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include
+            android:id="@+id/statsitem"
+            layout="@layout/fragment_tab_stats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+
+
+        <include
+            layout="@layout/fragment_tab_charts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:visibility="gone"
+        android:id="@+id/overlayAds"
+        layout="@layout/overlay_ads"/>
+    <include
+        android:id="@+id/popupleg"
+        layout="@layout/popup_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:visibility="gone">
+
+    </include>
+
+    <include
+        android:id="@+id/popupmatchend"
+        layout="@layout/endleg_popup_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:visibility="gone" />
+    <include
+        android:id="@+id/popup_forcequit"
+        layout="@layout/popup_forcequit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/overlaylayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_gravity="center"
+        android:layout_row="0"
+        android:background="#59000000"
+        android:gravity="center"
+        android:onClick="hideClick"
+        android:orientation="horizontal"
+        android:visibility="gone" />
+    <LinearLayout
+        android:layout_column="0"
+        android:layout_row="0"
+        android:visibility="gone"
+        android:id="@+id/buttonsSwipeup"
+        android:layout_gravity="right|bottom"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/castBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="12dp"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:onClick="castClick"
+            android:src="@drawable/cast_button_icon"
+
+            android:textAlignment="center"
+            ></android.support.design.widget.FloatingActionButton>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/saveEndBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="12dp"
+            android:layout_row="0"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            app:backgroundTint="@color/colorPrimary"
+            android:onClick="saveEndClick"
+            android:src="@drawable/ic_save"
+            android:textAlignment="center"
+            app:rippleColor="@color/colorPrimary"></android.support.design.widget.FloatingActionButton>
+
+    </LinearLayout>
+    <include
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        layout="@layout/tutorial_match"
+        android:layout_column="0"
+        android:layout_row="0" />
+</GridLayout>
