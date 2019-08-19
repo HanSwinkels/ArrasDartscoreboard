@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Border Height="300" Width="500" Style="{ThemeResource CardBorderStyle}">
+    <Border Style="{ThemeResource CardBorderStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -24,9 +24,9 @@
                 <Rectangle  Height="3" Fill="{ThemeResource accentColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
             </Grid>
             <StackPanel Margin="20,8,20,8" Orientation="Horizontal" Grid.Row="2">
-                <local:MatchScoreItemInfo/>
-                <local:MatchScoreItemInfo Margin="12,0"/>
-                <local:MatchScoreItemInfo/>
+                <local:MatchScoreItemInfo Info="LEGS"/>
+                <local:MatchScoreItemInfo Margin="12,0" Info="SETS"/>
+                <local:MatchScoreItemInfo Info="AVERAGE"/>
             </StackPanel>
         </Grid>
     </Border>

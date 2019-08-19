@@ -20,14 +20,13 @@
         <Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
             <ScrollViewer>
                 <StackPanel Margin="40,24,40,12" Grid.Row="2" Name="menu">
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Home"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Match"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Cricket"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="History"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Profiles"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Purchases"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="About"/>
                 </StackPanel>
             </ScrollViewer>
         </Frame>

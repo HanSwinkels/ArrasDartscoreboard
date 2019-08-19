@@ -17,11 +17,25 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arras.Windows.Views.ReuseableComponents
 {
-    public sealed partial class MatchScoreItemInfo : UserControl
+    public sealed partial class MenuMainItem : UserControl
     {
-        public MatchScoreItemInfo()
+        public MenuMainItem()
         {
             this.InitializeComponent();
         }
+
+
+
+        public string MenuText
+        {
+            get { return (string)GetValue(MenuTextProperty); }
+            set { SetValue(MenuTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MenuText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MenuTextProperty =
+            DependencyProperty.Register("MenuText", typeof(string), typeof(MenuMainItem), new PropertyMetadata(0));
+
+
     }
 }
