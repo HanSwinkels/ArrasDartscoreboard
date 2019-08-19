@@ -13,5 +13,13 @@
         <SolidColorBrush Color="#FFBDBDBD"   x:Name="secondaryTextColor" />
         <SolidColorBrush Color="#66000000"   x:Name="overlayColor" />
         <SolidColorBrush Color="#FFF3F3F3"   x:Name="bottomBarColor" />
+        <SolidColorBrush Color="#FFDADADA"   x:Name="borderColor"/>
+
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0,0,0,1.5" />
+            <Setter Property="Background" Value="{ThemeResource whiteColor}" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="BorderBrush" Value="{ThemeResource borderColor}"/>
+        </Style>
     </Application.Resources>
 </Application>
