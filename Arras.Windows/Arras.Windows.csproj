@@ -132,6 +132,21 @@
     <Compile Include="Views\MenuItems\MatchMenu.xaml.cs">
       <DependentUpon>MatchMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReuseableComponents\MatchScoreItem.xaml.cs">
+      <DependentUpon>MatchScoreItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\MatchScoreItemInfo.xaml.cs">
+      <DependentUpon>MatchScoreItemInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\MatchStatsItem.xaml.cs">
+      <DependentUpon>MatchStatsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\MenuCard.xaml.cs">
+      <DependentUpon>MenuCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\MenuMainItem.xaml.cs">
+      <DependentUpon>MenuMainItem.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -171,6 +186,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MenuItems\MatchMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\MatchScoreItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\MatchScoreItemInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\MatchStatsItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\MenuCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\MenuMainItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

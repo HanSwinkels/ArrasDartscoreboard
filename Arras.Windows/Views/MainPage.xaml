@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Arras.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:reuse="using:Arras.Windows.Views.ReuseableComponents"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource backgroundColor}">
@@ -19,41 +20,14 @@
         <Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
             <ScrollViewer>
                 <StackPanel Margin="40,24,40,12" Grid.Row="2" Name="menu">
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="Home_Tapped" Background="White">
-                            <TextBlock Text="Home" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="Match_Tapped" Background="White">
-                            <TextBlock Text="Match" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="Challenge_Tapped" Background="White">
-                            <TextBlock Text="Cricket" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="History_Tapped" Background="White">
-                            <TextBlock Text="History" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="Profiles_Tapped" Background="White">
-                            <TextBlock Text="Profiles" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="Purchases_Tapped" Background="White">
-                            <TextBlock Text="Purchases" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
-                    <Border CornerRadius="5"  BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="0,0,0,8">
-                        <Grid Tapped="About_Tapped" Background="White">
-                            <TextBlock Text="About" Margin="25" FontSize="18" Foreground="{ThemeResource textColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe WP SemiLight" />
-                        </Grid>
-                    </Border>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
+                    <reuse:MenuMainItem Margin="0,0,0,8"/>
                 </StackPanel>
             </ScrollViewer>
         </Frame>
