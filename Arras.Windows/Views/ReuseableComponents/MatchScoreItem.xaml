@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="Arras.Windows.Views.ReuseableComponents.MatchScoreItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Arras.Windows.Views.ReuseableComponents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Border Height="300" Width="500" Style="{ThemeResource CardBorderStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="{ThemeResource accentColor}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Grid Grid.Row="1" Margin="20,0,20,0">
+                <TextBlock VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="100" Text="501"/>
+                <Rectangle  Height="3" Fill="{ThemeResource accentColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+            </Grid>
+            <StackPanel Margin="20,8,20,8" Orientation="Horizontal" Grid.Row="2">
+                <local:MatchScoreItemInfo/>
+                <local:MatchScoreItemInfo Margin="12,0"/>
+                <local:MatchScoreItemInfo/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
