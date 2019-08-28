@@ -1,0 +1,15 @@
+﻿<UserControl
+    x:Class="Arras.Windows.Views.ReuseableComponents.KeyboardItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Arras.Windows.Views.ReuseableComponents"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Background="White">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <TextBlock Foreground="{ThemeResource textColor}" FontSize="24" HorizontalAlignment="Center" Text="1"/>
+            <TextBlock Foreground="{ThemeResource secondaryTextColor}" FontSize="16" VerticalAlignment="Bottom" Text="46"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
