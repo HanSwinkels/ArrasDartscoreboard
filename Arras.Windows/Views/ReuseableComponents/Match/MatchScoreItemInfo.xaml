@@ -14,6 +14,6 @@
         <Border CornerRadius="4" VerticalAlignment="Center" Background="{ThemeResource primaryColor}">
             <TextBlock Text="{x:Bind Info}" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI" Margin="8,4" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{ThemeResource whiteColor}"/>
         </Border>
-        <TextBlock Margin="8,0,0,0" FontFamily="Segoe UI" VerticalAlignment="Center" Text="17.65" Grid.Row="1" Foreground="{ThemeResource textColor}" FontSize="18"/>
+        <TextBlock Margin="8,0,0,0" FontFamily="Segoe UI" VerticalAlignment="Center" Text="17.65" Grid.Row="1" Foreground="{ThemeResource textColor}" FontSize="24"/>
     </Grid>
 </UserControl>

@@ -11,16 +11,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="4*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.7*"/>
             </Grid.RowDefinitions>
             <Grid Background="{ThemeResource accentColor}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <TextBlock Margin="20,0,0,0" FontSize="18" FontFamily="Segoe UI" Foreground="{ThemeResource whiteColor}" Text="Han Swinkels" VerticalAlignment="Center"/>
             </Grid>
             <Grid Grid.Row="1" Margin="20,0,20,0">
-                <TextBlock VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="100" Text="501"/>
+                <TextBlock VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="170" Text="501"/>
                 <Rectangle  Height="3" Fill="{ThemeResource accentColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
             </Grid>
             <StackPanel Margin="20,8,20,8" Orientation="Horizontal" Grid.Row="2">

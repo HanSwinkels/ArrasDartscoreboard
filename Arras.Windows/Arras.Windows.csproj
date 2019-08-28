@@ -132,19 +132,25 @@
     <Compile Include="Views\MenuItems\MatchMenu.xaml.cs">
       <DependentUpon>MatchMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReuseableComponents\MatchScoreItem.xaml.cs">
+    <Compile Include="Views\ReuseableComponents\Keyboard.xaml.cs">
+      <DependentUpon>Keyboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\KeyboardItem.xaml.cs">
+      <DependentUpon>KeyboardItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReuseableComponents\Match\MatchScoreItem.xaml.cs">
       <DependentUpon>MatchScoreItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReuseableComponents\MatchScoreItemInfo.xaml.cs">
+    <Compile Include="Views\ReuseableComponents\Match\MatchScoreItemInfo.xaml.cs">
       <DependentUpon>MatchScoreItemInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReuseableComponents\MatchStatsItem.xaml.cs">
+    <Compile Include="Views\ReuseableComponents\Match\MatchStatsItem.xaml.cs">
       <DependentUpon>MatchStatsItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReuseableComponents\MenuCard.xaml.cs">
+    <Compile Include="Views\ReuseableComponents\Menu\MenuCard.xaml.cs">
       <DependentUpon>MenuCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ReuseableComponents\MenuMainItem.xaml.cs">
+    <Compile Include="Views\ReuseableComponents\Menu\MenuMainItem.xaml.cs">
       <DependentUpon>MenuMainItem.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -177,10 +183,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MatchItems\ScoreItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MenuItems\HomeMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,23 +191,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReuseableComponents\MatchScoreItem.xaml">
+    <Page Include="Views\ReuseableComponents\Keyboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReuseableComponents\MatchScoreItemInfo.xaml">
+    <Page Include="Views\ReuseableComponents\KeyboardItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReuseableComponents\MatchStatsItem.xaml">
+    <Page Include="Views\ReuseableComponents\Match\MatchScoreItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReuseableComponents\MenuCard.xaml">
+    <Page Include="Views\ReuseableComponents\Match\MatchScoreItemInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ReuseableComponents\MenuMainItem.xaml">
+    <Page Include="Views\ReuseableComponents\Match\MatchStatsItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\Menu\MenuCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\Menu\MenuMainItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
