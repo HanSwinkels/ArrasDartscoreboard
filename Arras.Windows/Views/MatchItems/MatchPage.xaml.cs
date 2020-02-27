@@ -226,11 +226,13 @@ namespace Arras.Windows.Views.MatchItems
             var legStartedPlayer = this.matchService.GetStartingPlayer();
             var indexPlayer = this.matchService.StandardMatch.Players.IndexOf(legStartedPlayer);
 
-            var turnGrids = new List<Grid>();
-            turnGrids.Add(MatchScoreItemOne.FindChildByName("TurnGrid") as Grid);
-            turnGrids.Add(MatchScoreItemTwo.FindChildByName("TurnGrid") as Grid);
+            var turnGrids = new List<Grid>
+            {
+                MatchScoreItemOne.FindChildByName("TurnGrid") as Grid,
+                MatchScoreItemTwo.FindChildByName("TurnGrid") as Grid
+            };
 
-            for (int i = 0; i < turnGrids.Count; i++)
+            for (var i = 0; i < turnGrids.Count; i++)
             {
                 turnGrids[i].Visibility = i == indexPlayer ? Visibility.Visible : Visibility.Collapsed;
             }

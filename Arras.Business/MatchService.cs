@@ -27,7 +27,7 @@
         /// <summary>
         /// The player service of each player, containing all methods for the players.
         /// </summary>
-        public readonly List<PlayerService> playerServices;
+        public readonly List<PlayerService> playerServices = new List<PlayerService>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="MatchService"/>.

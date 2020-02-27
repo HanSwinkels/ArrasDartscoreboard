@@ -82,7 +82,7 @@
         public PlayerMatchStats GetAllStats(StandardMatch match)
         {
             var legs = this.GetLegs(match);
-            this.LegsByPlayer = this.GetLegsByPlayer(legs).Where(x => x.IsWon.HasValue).ToList();
+            this.LegsByPlayer = this.GetLegsByPlayer(legs).ToList();
 
             return new PlayerMatchStats
             {
@@ -112,7 +112,7 @@
         /// <returns>The latest match stats for the player.</returns>
         public PlayerMatchStats GetAllStats(List<StandardMatch> matches)
         {
-            this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x))).Where(x => x.IsWon.HasValue).ToList();
+            this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x))).ToList();
 
             return new PlayerMatchStats
             {
@@ -299,7 +299,6 @@
         public int GetRemainingScore(StandardMatch match)
         {
             this.LegsByPlayer = this.GetLegsByPlayer(this.GetLegs(match));
-
             return match.Format - this.LegsByPlayer.Last().Scores.Sum();
         }
 
@@ -309,7 +308,8 @@
         /// <returns>The highest score of the player.</returns>
         private int GetHighestScore()
         {
-            return this.LegsByPlayer.Select(x => x.Scores.Max()).Max();
+            var scores = this.LegsByPlayer.SelectMany(x => x.Scores);
+            return !scores.Any() ? 0 : scores.Max();
         }
 
         /// <summary>
@@ -318,7 +318,8 @@
         /// <returns>The highest checkout of the player.</returns>
         private int GetHighestCheckout()
         {
-            return this.LegsByPlayer.Where(x => x.IsWon.OrElse(false)).Select(x => x.Scores.Last()).Max();
+            var wonLegs = this.LegsByPlayer.Where(l => l.IsWon.OrElse(false));
+            return !wonLegs.Any() ? 0 : wonLegs.Select(x => x.Scores.Last()).Max();
         }
 
         /// <summary>
@@ -327,7 +328,8 @@
         /// <returns>The best leg of the player.</returns>
         private int GetBestLeg()
         {
-            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Min(x => x.DartsThrown.Sum());
+            var wonLegs = this.LegsByPlayer.Where(l => l.IsWon.OrElse(false));
+            return !wonLegs.Any() ? 0 : wonLegs.Min(x => x.DartsThrown.Sum());
         }
 
         /// <summary>
@@ -336,7 +338,8 @@
         /// <returns>The best leg of the player.</returns>
         private int GetWorstLeg()
         {
-            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Max(x => x.DartsThrown.Sum());
+            var wonLegs = this.LegsByPlayer.Where(l => l.IsWon.OrElse(false));
+            return !wonLegs.Any() ? 0 : wonLegs.Max(x => x.DartsThrown.Sum());
         }
 
         /// <summary>
@@ -355,7 +358,7 @@
         /// <returns></returns>
         private int GetBreaks()
         {
-            return this.LegsByPlayer.Count(x => x.HasStarted && x.IsWon.OrElse(false));
+            return this.LegsByPlayer.Count(x => !x.HasStarted && x.IsWon.OrElse(false));
         }
     }
 }
