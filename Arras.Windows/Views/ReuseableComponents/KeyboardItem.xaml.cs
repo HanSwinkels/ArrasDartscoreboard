@@ -23,5 +23,20 @@ namespace Arras.Windows.Views.ReuseableComponents
         {
             this.InitializeComponent();
         }
+
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(KeyboardItem), null);
+        public static readonly DependencyProperty SecondaryTextProperty = DependencyProperty.Register("SecondaryText", typeof(string), typeof(KeyboardItem), null);
+
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+
+        public string SecondaryText
+        {
+            get { return (string)GetValue(SecondaryTextProperty); }
+            set { SetValue(SecondaryTextProperty, value); }
+        }
     }
 }

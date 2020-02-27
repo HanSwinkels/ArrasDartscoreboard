@@ -51,14 +51,14 @@ namespace Arras.Business.Test
             var leg1 = new Leg();
             leg1.LegByPlayers.Add(new LegByPlayer(this.Player.Id.OrElse(this.Player.Name))
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31}
             });
             leg1.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
@@ -66,14 +66,14 @@ namespace Arras.Business.Test
             var leg2 = new Leg();
             leg2.LegByPlayers.Add(new LegByPlayer(this.Player.Id.OrElse(this.Player.Name))
             {
-                DartsThrown = 21,
+                DartsThrown = {5,5,5,5,1},
                 HasStarted = false,
                 IsWon = false.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 83, 42 }
             });
             leg2.LegByPlayers.Add(new LegByPlayer(this.Player.Id.OrElse(this.Player.Name)) 
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = false,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
@@ -81,7 +81,7 @@ namespace Arras.Business.Test
             var leg3 = new Leg();
             leg3.LegByPlayers.Add(new LegByPlayer(this.Player.Id.OrElse(this.Player.Name))
             {
-                DartsThrown = 36,
+                DartsThrown = {6,6,6,6,6,6},
                 HasStarted = true,
                 IsWon = false.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 8, 10, 31, 46, 30, 20}
@@ -118,6 +118,7 @@ namespace Arras.Business.Test
             var stats = this.Service.GetAllStats(this.Match, this.Player);
 
             Assert.AreEqual(56.66, stats.Average);
+            Assert.AreEqual(2, stats.Legs);
             Assert.AreEqual(56.67, stats.AverageFirstNine);
             Assert.AreEqual(140, stats.HighestScore);
             Assert.AreEqual(5, stats.Plus100);

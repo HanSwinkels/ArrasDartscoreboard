@@ -20,9 +20,22 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <reuse:MenuCard Grid.Row="0" Margin="20"/>
-            <reuse:MenuCard Grid.Row="1" Margin="20"/>
-            <reuse:MenuCard Grid.Row="2" Margin="20"/>
+            <reuse:MenuCard TopPrimaryText="Continue" 
+                            TopSecondaryText="Press this card to continue your last game" 
+                            Grid.Row="0"
+                            Margin="20"/>
+            <reuse:MenuCard TopPrimaryText="Changelog" 
+                            TopSecondaryText="Improvements made since the last update"
+                            BottomPrimaryText="New features (v1.0.0.1"
+                            BottomSecondaryText="Bug fixes" 
+                            Grid.Row="1"
+                            Margin="20" />
+            <reuse:MenuCard TopPrimaryText="Review" 
+                            TopSecondaryText="Share your experience in the store"
+                            BottomPrimaryText="Rate and review"
+                            BottomSecondaryText="Let us know what you think about Arras in the Play Store"
+                            Grid.Row="2"
+                            Margin="20"/>
 
         </Grid>
         <Grid Grid.Column="1">
@@ -30,17 +43,15 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Border CornerRadius="5" BorderBrush="#FFDADADA" BorderThickness="0,0,0,1.5" Margin="20" Grid.Row="0">
-                <Grid  Background="White" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="1" Background="{ThemeResource primaryColor}">
+            <Grid Margin="20" Background="White" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Background="{ThemeResource primaryColor}">
 
-                    </Grid>
                 </Grid>
-            </Border>
+            </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

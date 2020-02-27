@@ -8,31 +8,74 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource backgroundColor}">
-
     <Grid>
-
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2.7*"/>
         </Grid.ColumnDefinitions>
 
+        <NavigationView x:Name="NavigationView" CompositeMode="Inherit" IsPaneOpen="True" ItemInvoked="ItemMenu_Invoked"  IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+            <NavigationView.MenuItems>
+                <NavigationViewItemHeader Content="Main" />
+                <NavigationViewItem Content="Home">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="History">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Profiles">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemSeparator/>
+                <NavigationViewItemHeader Content="Training" />
+                <NavigationViewItem Content="Match">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Cricket">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemSeparator/>
+                <NavigationViewItemHeader Content="Settings" />
+                <NavigationViewItem Content="Purchases">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="About">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE12A;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemSeparator/>
+            </NavigationView.MenuItems>
+        </NavigationView>
         <!--Menu item -->
-        <Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
+        <!--<Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
             <ScrollViewer>
-                <StackPanel Margin="40,24,40,12" Grid.Row="2" Name="menu">
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Home"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Match"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Cricket"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="History"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Profiles"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="Purchases"/>
-                    <reuse:MenuMainItem Margin="0,0,0,8" MenuText="About"/>
+                <StackPanel Margin="40,24,40,12">
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Home"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Match"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Cricket"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="History"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Profiles"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Purchases"/>
+                    <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="About"/>
                 </StackPanel>
             </ScrollViewer>
-        </Frame>
+        </Frame>-->
 
         <!-- Info item -->
-        <Frame x:Name="infoItem" HorizontalAlignment="Stretch" Grid.Column="1">
+        <Frame x:Name="InfoFrame" HorizontalAlignment="Stretch" Grid.Column="1">
 
         </Frame>
     </Grid>

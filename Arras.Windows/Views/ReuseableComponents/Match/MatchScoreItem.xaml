@@ -6,29 +6,60 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Border Style="{ThemeResource CardBorderStyle}">
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,60,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="1.7*"/>
             </Grid.RowDefinitions>
-            <Grid Background="{ThemeResource accentColor}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Margin="20,0,0,0" FontSize="18" FontFamily="Segoe UI" Foreground="{ThemeResource whiteColor}" Text="Han Swinkels" VerticalAlignment="Center"/>
+            <Grid x:Name="TurnGrid" Grid.Row="0"  Background="{ThemeResource keyboardBackground}" Visibility="Collapsed">
+                <!-- Only visible if the player is at turn. -->
+                <Ellipse Margin="20,8,8,8" Fill="{ThemeResource accentColorNormal}" Height="20" Width="20" />
             </Grid>
-            <Grid Grid.Row="1" Margin="20,0,20,0">
-                <TextBlock VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="170" Text="501"/>
-                <Rectangle  Height="3" Fill="{ThemeResource accentColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+            <Grid Grid.Row="0" Grid.Column="1" Background="{ThemeResource keyboardBackground}">
+                <TextBlock Margin="20,8,0,8" FontSize="24" FontFamily="Century Gothic" Foreground="{ThemeResource matchBackgroundTop}" Text="{Binding Name}" FontWeight="Bold" VerticalAlignment="Center"/>
             </Grid>
-            <StackPanel Margin="20,8,20,8" Orientation="Horizontal" Grid.Row="2">
-                <local:MatchScoreItemInfo Info="LEGS"/>
-                <local:MatchScoreItemInfo Margin="12,0" Info="SETS"/>
-                <local:MatchScoreItemInfo Info="AVERAGE"/>
+            <Grid Grid.Row="0"  Grid.Column="2" Background="{ThemeResource accentColorNormal}">
+                <!-- Number of darts thrown in this leg. -->
+                <TextBlock Margin="20,0,20,0" FontSize="24" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="{Binding DartsThrown}" FontWeight="Bold" VerticalAlignment="Center"/>
+            </Grid>
+            <TextBlock x:Name="ScoreText" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" FontSize="170" Text="{Binding Score}"/>
+            <TextBlock Margin="0,0,-20,0" MaxWidth="60" Grid.Row="1" TextWrapping="WrapWholeWords" Grid.Column="2" FontWeight="SemiLight" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" FontSize="28" Text="{Binding Throwout}"/>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Margin="0,0,20,6" FontSize="20" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="Sets" HorizontalAlignment="Right" FontWeight="SemiLight" VerticalAlignment="Center"/>
+                <Grid Background="{ThemeResource accentColorDark}">
+                    <TextBlock Margin="0,12,20,12" FontSize="30" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="{Binding Sets}" HorizontalAlignment="Right" FontWeight="Bold" VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <TextBlock Margin="0,0,20,6" FontSize="20" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="Legs" HorizontalAlignment="Right" FontWeight="SemiLight" VerticalAlignment="Center"/>
+                <Grid Background="{ThemeResource accentColorNormal}">
+                    <TextBlock Margin="0,12,20,12" FontSize="30" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="{Binding Legs}" HorizontalAlignment="Right" FontWeight="Bold" VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Margin="0,0,20,6" FontSize="20" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="Average" HorizontalAlignment="Right" FontWeight="SemiLight" VerticalAlignment="Center"/>
+                <Grid Background="{ThemeResource accentColorLight}">
+                    <TextBlock Margin="0,12,20,12" FontSize="30" FontFamily="Century Gothic" Foreground="{ThemeResource keyboardBackground}" Text="{Binding Average}" HorizontalAlignment="Right" FontWeight="Bold" VerticalAlignment="Center"/>
+                </Grid>
             </StackPanel>
         </Grid>
-    </Border>
+    </Grid>
 </UserControl>

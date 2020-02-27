@@ -6,8 +6,9 @@
     xmlns:reuse="using:Arras.Windows.Views.ReuseableComponents"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:match="using:Arras.Windows.Views.ReuseableComponents.Match"
     mc:Ignorable="d"
-    Background="{ThemeResource backgroundColor}">
+    Background="{ThemeResource matchBackgroundTop}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,30 +17,35 @@
         </Grid.RowDefinitions>
 
         <!--TOP ROW - SCORE ITEMS-->
-        <Grid Row="0">
+        <Grid Row="0" Background="{ThemeResource matchBackgroundTop}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width=".7*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <reuse:MatchScoreItem Margin="20"/>
-            <reuse:MatchScoreItem Margin="20" Grid.Column="2"/>
+            <reuse:MatchScoreItem x:Name="MatchScoreItemOne" Margin="0,20,0,0"/>
+            <reuse:MatchScoreItem x:Name="MatchScoreItemTwo" Margin="0,20,0,0" Grid.Column="2"/>
         </Grid>
+        <Border Grid.Row="0" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="0,0,12,12" Background="{ThemeResource accentColorDark}">
+            <Grid>
+                <TextBlock Margin="20,8" Text="FIRST TO 5 SETS" FontSize="18" FontWeight="Black" Foreground="{ThemeResource whiteColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </Border>
 
         <!--BOTTOM ROW - STATS AND KEYBOARD -->
-        <Grid Row="1">
+        <Grid Row="1" Background="{ThemeResource backgroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width=".9*"/>
+                <ColumnDefinition Width=".7*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid>
-                
+            <reuse:MatchStatsItem x:Name="MatchStatsItemOne"/>
+            <reuse:Keyboard x:Name="Keyboard" Grid.Column="1" Margin="0,-80,0,0"/>
+            <Grid Visibility="Collapsed" x:Name="EndLegGrid" Grid.Column="1">
+                <Grid Margin="0,-80,0,0" Background="{ThemeResource overlayColor}"/>
+                <match:MatchEndLeg x:Name="MatchEndLeg" Margin="40"/>
             </Grid>
-            <reuse:Keyboard Grid.Column="1" Margin="20"/>
-            <Grid>
-                
-            </Grid>
+            <reuse:MatchStatsItem x:Name="MatchStatsItemTwo" Grid.Column="2"/>
         </Grid>
     </Grid>
 

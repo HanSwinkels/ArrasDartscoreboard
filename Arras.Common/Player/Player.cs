@@ -34,10 +34,5 @@
         /// The type of player.
         /// </summary>
         public PlayerType PlayerType { get; set; }
-
-        /// <summary>
-        /// The remaining score in a match.
-        /// </summary>
-        public int Score { get; set; }
     }
 }

@@ -4,21 +4,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Arras.Windows">
     <Application.Resources>
-        <SolidColorBrush Color="#FFF44336"   x:Name="primaryColor" />
-        <SolidColorBrush Color="#FFD32F2F"   x:Name="primaryDarkColor" />
-        <SolidColorBrush Color="#FF448AFF"   x:Name="accentColor" />
-        <SolidColorBrush Color="#FFF1F5F8"   x:Name="backgroundColor" />
+        <SolidColorBrush Color="#FF607D8B"   x:Name="primaryColor" />
+        <SolidColorBrush Color="#FF37474f"   x:Name="primaryDarkColor" />
+        <SolidColorBrush Color="#FFCFD8DC"   x:Name="primaryLightColor" />
+        <SolidColorBrush Color="#FF9E9E9E"   x:Name="accentColor" />
+        <SolidColorBrush Color="#FFEEF5FA"   x:Name="backgroundColor" />
         <SolidColorBrush Color="#FFFFFFFF"   x:Name="whiteColor" />
         <SolidColorBrush Color="#FF575757"   x:Name="textColor" />
         <SolidColorBrush Color="#FFBDBDBD"   x:Name="secondaryTextColor" />
         <SolidColorBrush Color="#66000000"   x:Name="overlayColor" />
-        <SolidColorBrush Color="#FFF3F3F3"   x:Name="bottomBarColor" />
         <SolidColorBrush Color="#FFDADADA"   x:Name="borderColor"/>
 
+
+        <SolidColorBrush Color="#FF404042"   x:Name="matchBackgroundTop"/>
+        <SolidColorBrush Color="#FFEEF5FA"   x:Name="matchBackgroundBottom"/>
+        <!--<SolidColorBrush Color="#FFF4FAFD"   x:Name="keyboardBackground"/>
+        <SolidColorBrush Color="#FF4f5fb2"   x:Name="accentColorDark"/>
+        <SolidColorBrush Color="#FF97A0D1"   x:Name="accentColorLight"/>-->
+
+        <SolidColorBrush Color="#FFF4FAFD"   x:Name="keyboardBackground"/>
+        <SolidColorBrush Color="#FFFF1744"   x:Name="accentColorDark"/>
+        <SolidColorBrush Color="#FFFF8A80"   x:Name="accentColorLight"/>
+        <SolidColorBrush Color="#FFFF5252"   x:Name="accentColorNormal"/>
+
         <Style x:Key="CardBorderStyle" TargetType="Border">
-            <Setter Property="BorderThickness" Value="0,0,0,1.5" />
+            <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="{ThemeResource whiteColor}" />
-            <Setter Property="CornerRadius" Value="8" />
             <Setter Property="BorderBrush" Value="{ThemeResource borderColor}"/>
         </Style>
     </Application.Resources>

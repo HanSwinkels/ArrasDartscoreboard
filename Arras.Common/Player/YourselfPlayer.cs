@@ -17,6 +17,7 @@
         {
             this.Level = level;
         }
+
         /// <summary>
         /// The level of this player.
         /// </summary>

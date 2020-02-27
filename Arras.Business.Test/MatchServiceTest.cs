@@ -47,14 +47,14 @@
             var leg1 = new Leg();
             leg1.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = false.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
             });
             leg1.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
@@ -62,14 +62,14 @@
             var leg2 = new Leg();
             leg2.LegByPlayers.Add(new LegByPlayer("PlayerOne")
             {
-                DartsThrown = 21,
+                DartsThrown = {5,5,5,5,1},
                 HasStarted = false,
                 IsWon = false.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 83, 42 }
             });
             leg2.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = false,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
@@ -77,14 +77,14 @@
             var leg3 = new Leg();
             leg3.LegByPlayers.Add(new LegByPlayer("PlayerOne")
             {
-                DartsThrown = 36,
+                DartsThrown = {6,6,6,6,6,6},
                 HasStarted = true,
                 IsWon = false.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 8, 10, 31, 46, 30, 20 }
             });
             leg3.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = false,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 100, 140, 31 }
@@ -108,13 +108,13 @@
         }
 
         /// <summary>
-        /// Tests whether the method <see cref="MatchService.GetLastLeg"/> returns the correct value.
+        /// Tests whether the method <see cref="MatchService.GetCurrentLeg"/> returns the correct value.
         /// </summary>
         [TestMethod]
         public void GetLastLeg()
         {
             var match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(match.GetLastLeg(), this.Legs.Last());
+            Assert.AreEqual(match.GetCurrentLeg(), this.Legs.Last());
         }
 
         /// <summary>
@@ -123,22 +123,21 @@
         [TestMethod]
         public void EnterScore()
         {
-            this.LegsMatch.Players.First().Score = 91;
-            this.LegsMatch.Players.Last().Score = 91;
             var match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(ScoreValidationType.Valid, match.EnterScore(40));
-           
-            match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(ScoreValidationType.Invalid, match.EnterScore(100));
+            match.StandardMatch.Format = 91;
+            Assert.AreEqual(ScoreValidationType.Invalid, match.EnterScore(100, Players.First()));
 
             match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(ScoreValidationType.Invalid, match.EnterScore(90));
+            match.StandardMatch.Format = 91;
+            Assert.AreEqual(ScoreValidationType.Invalid, match.EnterScore(90, Players.First()));
 
             match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(ScoreValidationType.Valid, match.EnterScore(40));
+            match.StandardMatch.Format = 91;
+            Assert.AreEqual(ScoreValidationType.Valid, match.EnterScore(40, Players.First()));
 
             match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(ScoreValidationType.EndsLeg, match.EnterScore(51));
+            match.StandardMatch.Format = 51;
+            Assert.AreEqual(ScoreValidationType.EndsLeg, match.EnterScore(51, Players.First()));
         }
 
         /// <summary>
@@ -162,21 +161,21 @@
             var leg = new Leg();
             leg.LegByPlayers.Add(new LegByPlayer("PlayerOne")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 180}
             });
             leg.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60, 180}
             });
             this.LegsMatch.LegsPlayed.Value.Add(leg);
             var match = new MatchService(this.LegsMatch);
-            Assert.AreEqual(19, match.EndLeg(2, this.Players.First()).LegByPlayers.First(x => x.PlayerId == this.Players.First().Name).DartsThrown);
+            Assert.AreEqual(19, match.EndLeg(2).LegByPlayers.First(x => x.PlayerId == this.Players.First().Name).DartsThrown);
         }
 
         /// <summary>
@@ -187,7 +186,7 @@
         {
             var match = new MatchService(this.LegsMatch);
             match.AddScore(377, this.Players.First());
-            Assert.AreEqual(377, match.GetLastLeg().LegByPlayers.First(x => x.PlayerId == this.Players.First().Name).Scores.Last());
+            Assert.AreEqual(377, match.GetCurrentLeg().LegByPlayers.First(x => x.PlayerId == this.Players.First().Name).Scores.Last());
         }
 
         /// <summary>
@@ -209,14 +208,14 @@
             var leg = new Leg();
             leg.LegByPlayers.Add(new LegByPlayer("PlayerOne")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60}
             });
             leg.LegByPlayers.Add(new LegByPlayer("PlayerTwo")
             {
-                DartsThrown = 20,
+                DartsThrown = {5,5,5,5},
                 HasStarted = true,
                 IsWon = true.ToMaybe(),
                 Scores = new List<int> { 46, 83, 41, 60}

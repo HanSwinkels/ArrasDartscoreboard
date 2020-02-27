@@ -15,6 +15,8 @@
         public LegByPlayer(string id)
         {
             this.PlayerId = id;
+            this.Scores = new List<int>();
+            this.DartsThrown = new List<int>();
         }
 
         /// <summary>
@@ -30,7 +32,7 @@
         /// <summary>
         /// The number of darts thrown in this leg.
         /// </summary>
-        public int DartsThrown { get; set; }
+        public List<int> DartsThrown { get; set; }
 
         /// <summary>
         /// Represents whether the leg was won by the player.

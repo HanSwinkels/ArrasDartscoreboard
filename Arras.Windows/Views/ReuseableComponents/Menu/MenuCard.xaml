@@ -7,15 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border Style="{ThemeResource CardBorderStyle}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="{ThemeResource primaryColor}">
-                <!--TODO Customizable: https://stackoverflow.com/questions/38994698/two-user-controls-or-two-styles--> 
-            </Grid>
+    <Grid Background="{ThemeResource whiteColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{ThemeResource primaryDarkColor}">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Foreground="{ThemeResource whiteColor}" FontSize="24" Margin="20,6" HorizontalAlignment="Left" Text="{x:Bind TopPrimaryText}"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource whiteColor}" FontWeight="Light" FontSize="18" Margin="20,0" HorizontalAlignment="Left" Text="{x:Bind TopSecondaryText}"/>
+            </StackPanel>
         </Grid>
-    </Border>
+        <StackPanel VerticalAlignment="Center" Grid.Row="1" Background="{ThemeResource whiteColor}">
+            <TextBlock Foreground="{ThemeResource textColor}" FontSize="18" Margin="20,6" HorizontalAlignment="Left" Text="{x:Bind BottomPrimaryText}"/>
+            <TextBlock TextWrapping="Wrap" Foreground="{ThemeResource secondaryTextColor}" FontSize="18" Margin="20,0" HorizontalAlignment="Left" Text="{x:Bind BottomSecondaryText}"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

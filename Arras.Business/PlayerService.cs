@@ -16,12 +16,17 @@
         /// <summary>
         /// The player for this service.
         /// </summary>
-        private Player Player;
+        public readonly Player Player;
 
         /// <summary>
         /// The list of legs that this player has played.
         /// </summary>
-        private List<LegByPlayer> LegsByPlayer;
+        private List<LegByPlayer> LegsByPlayer = new List<LegByPlayer>();
+
+        public PlayerService(Player player)
+        {
+            this.Player = player;
+        }
 
         /// <summary>
         /// Gets all the legs played during a match. Necessary since there are two types (i.e. sets and legs).
@@ -35,17 +40,49 @@
         }
 
         /// <summary>
+        /// Gets the data that is displayed in the <see cref="Player"/>.
+        /// </summary>
+        /// <param name="match"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public PlayerScoreItem GetPlayerScoreItem(StandardMatch match)
+        {
+            var legs = this.GetLegs(match);
+            this.LegsByPlayer = this.GetLegsByPlayer(legs).ToList();
+
+            var score = match.Format - this.LegsByPlayer.Last().Scores.Sum();
+
+            var legsWon = 0;
+            if (match.StandardMatchType == StandardMatchType.Sets)
+            {
+                legsWon = this.GetNumberWonLegsInSet(match);
+            }
+            else
+            {
+                legsWon = this.GetNumberWonLegs();
+;            }
+
+            return new PlayerScoreItem(
+                this.Player.Name, 
+                score, 
+                GetThrowoutAdvice(score), 
+                this.LegsByPlayer.Last().DartsThrown.Sum(), 
+                GetAverage(),
+                GetSetsWon(match),
+                legsWon);
+        }
+
+        /// <summary>
         /// Gets the latest match stats for the player, except for a running leg.
         /// </summary>
         /// <param name="match">The match for which the stats have to be retrieved.</param>
         /// <param name="player">The player for which to retrieve the stats.</param>
         /// <remarks>Does not take running legs into account.</remarks>
         /// <returns>The latest match stats for the player.</returns>
-        public PlayerMatchStats GetAllStats(StandardMatch match, Player player)
+        public PlayerMatchStats GetAllStats(StandardMatch match)
         {
-            this.Player = player;
             var legs = this.GetLegs(match);
-            this.LegsByPlayer = this.GetLegsByPlayer(legs, player).Where(x => x.IsWon.HasValue).ToList();
+            this.LegsByPlayer = this.GetLegsByPlayer(legs).Where(x => x.IsWon.HasValue).ToList();
 
             return new PlayerMatchStats
             {
@@ -69,14 +106,13 @@
         /// <summary>
         /// Gets the latest match stats for the player, except for a running leg.
         /// </summary>
-        /// <param name="match">The matches for which the stats have to be retrieved</param>
+        /// <param name="matches">The matches for which the stats have to be retrieved</param>
         /// <param name="player">The player for which to retrieve the stats</param>
         /// <remarks>Does not take running legs into account.</remarks>
         /// <returns>The latest match stats for the player.</returns>
-        public PlayerMatchStats GetAllStats(List<StandardMatch> matches, Player player)
+        public PlayerMatchStats GetAllStats(List<StandardMatch> matches)
         {
-            this.Player = player;
-            this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x), player)).Where(x => x.IsWon.HasValue).ToList();
+            this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x))).Where(x => x.IsWon.HasValue).ToList();
 
             return new PlayerMatchStats
             {
@@ -100,14 +136,11 @@
         /// <summary>
         /// Gets the latest basic match stats for the player. Will not get any stats regarding leg information, such as best leg etc.
         /// </summary>
-        /// <param name="legs">The list of legs from which to take.</param>
-        /// <param name="player">The player for which to retrieve the stats.</param>
+        /// <param name="match">The match from which to retrieve the basic stats.</param>
         /// <returns>The latest match stats for the player.</returns>
-        public PlayerMatchStats GetBasicStats(StandardMatch match, Player player)
+        public PlayerMatchStats GetBasicStats(StandardMatch match)
         {
-            // TODO: Don't let this affect the stats of legs etc, only update the current stats.
-            this.Player = player;
-            this.LegsByPlayer = this.GetLegsByPlayer(this.GetLegs(match), player);
+            this.LegsByPlayer = this.GetLegsByPlayer(this.GetLegs(match));
             return new PlayerMatchStats
             {
                 Average = this.GetAverage(),
@@ -124,12 +157,11 @@
         /// Gets a list of legs played by a player.
         /// </summary>
         /// <param name="legs">The list of legs from which to take</param>
-        /// <param name="player"></param>
         /// <returns>The legs played by the provided player</returns>
-        private List<LegByPlayer> GetLegsByPlayer(List<Leg> legs, Player player)
+        private List<LegByPlayer> GetLegsByPlayer(List<Leg> legs)
         {
             return legs.SelectMany(x =>
-                x.LegByPlayers.Where(l => l.PlayerId == player.Id.OrElse(player.Name))).ToList();
+                x.LegByPlayers.Where(l => l.PlayerId == this.Player.Id.OrElse(this.Player.Name))).ToList();
         }
 
         /// <summary>
@@ -138,10 +170,13 @@
         /// <returns>The three dart average of the player, rounded to two decimals.</returns>
         private double GetAverage()
         {
-            var totalScore = this.LegsByPlayer.SelectMany(x => x.Scores.Select(s => s)).Sum();
-            var totalDarts = this.LegsByPlayer.Select(x => x.DartsThrown).Sum() / 3.0;
+            if (this.LegsByPlayer.First().DartsThrown.Sum() <= 0)
+                return 0.00;
 
-            return Math.Round(totalScore / totalDarts, 2);
+            var totalScore = this.LegsByPlayer.SelectMany(x => x.Scores.Select(s => s)).Sum();
+            var totalDarts = this.LegsByPlayer.Select(x => x.DartsThrown.Sum()).Sum() / 3.0;
+
+            return Math.Round(totalScore / totalDarts, 2) * 1.00;
         }
 
         /// <summary>
@@ -150,20 +185,46 @@
         /// <returns>The number of legs won by this player.</returns>
         private int GetNumberWonLegs() => this.LegsByPlayer.Count(x => x.IsWon.OrElse(false));
 
+        /// <summary>
+        /// Gets the number of legs won in this set by this player.
+        /// </summary>
+        /// <returns>The number of legs won by this player.</returns>
+        private int GetNumberWonLegsInSet(StandardMatch match)
+        {
+            var legsInLastSet = match.SetsPlayed.Value.Last().Legs;
+            var legsByPlayerInSet = legsInLastSet.SelectMany(x => x.LegByPlayers.Where(p => p.PlayerId == this.Player.Id.OrElse(this.Player.Name)));
+
+            return legsByPlayerInSet.Count(l => l.IsWon.OrElse(false));
+        }
+
+
 
         /// <summary>
         /// Gets the number of sets that are won by a player.
         /// </summary>
         /// <param name="match">The match for which the number of sets won has to be retrieved.</param>
         /// <returns>The number of sets won by the provided player.</returns>
-        public int GetSetsWon(StandardMatch match)
+        private int GetSetsWon(StandardMatch match)
         {
             if (match.StandardMatchType == StandardMatchType.Legs) return 0;
 
-            var setsByPlayer = match.SetsPlayed.Value.Select(x => x.Legs.Select(l => l.LegByPlayers
-                .First(p => p.PlayerId == this.Player.Id.OrElse(this.Player.Name))));
+            var setsPlayed = match.SetsPlayed.Value;
+            var listOfLegsInSet = setsPlayed.Select(x => x.Legs);
 
-            return setsByPlayer.Count(s => s.Count(x => x.IsWon.OrElse(false)) == 3);
+            var setsCount = 0;
+            foreach (var set in listOfLegsInSet)
+            {
+                var legByPlayersInSet = set.Select(x =>
+                        x.LegByPlayers.Where(p => p.PlayerId == this.Player.Id.OrElse(this.Player.Name)))
+                    .SelectMany(x => x);
+
+                if (legByPlayersInSet.Count(x => x.IsWon.OrElse(false)) == 3)
+                {
+                    setsCount++;
+                }
+            }
+
+            return setsCount;
         }
 
         /// <summary>
@@ -173,8 +234,9 @@
         /// <returns>The number of sets won by the provided player.</returns>
         public int GetSetsWon(List<StandardMatch> matches)
         {
+            //TODO Fix this method as above
             var setsByPlayer = matches.SelectMany(m => m.SetsPlayed.Value.Select(x => x.Legs.Select(l => l.LegByPlayers
-                .First(p => p.PlayerId == this.Player.Id.OrElse(this.Player.Name)))));
+                .FirstOrDefault(p => p.PlayerId == this.Player.Id.OrElse(this.Player.Name)))));
 
             return setsByPlayer.Count(s => s.Count(x => x.IsWon.OrElse(false)) == 3);
         }
@@ -187,7 +249,7 @@
         private double GetAverage(LegByPlayer leg)
         {
             var totalScore = leg.Scores.Select(s => s).Sum();
-            var totalDarts = leg.DartsThrown / 3.0; // Since we want to compute three dart average.
+            var totalDarts = leg.DartsThrown.Sum() / 3.0; // Since we want to compute three dart average.
 
             return Math.Round(totalScore / totalDarts, 2);
         }
@@ -211,8 +273,8 @@
             var totalScore = this.LegsByPlayer.SelectMany(x => x.Scores.Take(3).Select(s => s)).Sum();
             var totalDarts = this.LegsByPlayer.Select(x =>
             {
-                if (x.DartsThrown < 9)
-                    return x.DartsThrown;
+                if (x.DartsThrown.Sum() < 9)
+                    return x.DartsThrown.Sum();
                 else
                     return 9;
             }).Sum() / 3.0;
@@ -228,6 +290,17 @@
         private int GetScoresAbove(int score)
         {
             return this.LegsByPlayer.Select(x => x.Scores.Count(s => s >= score)).Sum();
+        }
+
+        /// <summary>
+        /// Get the remaining score for the specified player in the specified match.
+        /// </summary>
+        /// <returns>The remaining score for the provided player in the match</returns>
+        public int GetRemainingScore(StandardMatch match)
+        {
+            this.LegsByPlayer = this.GetLegsByPlayer(this.GetLegs(match));
+
+            return match.Format - this.LegsByPlayer.Last().Scores.Sum();
         }
 
         /// <summary>
@@ -254,7 +327,7 @@
         /// <returns>The best leg of the player.</returns>
         private int GetBestLeg()
         {
-            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Min(x => x.DartsThrown);
+            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Min(x => x.DartsThrown.Sum());
         }
 
         /// <summary>
@@ -263,7 +336,7 @@
         /// <returns>The best leg of the player.</returns>
         private int GetWorstLeg()
         {
-            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Max(x => x.DartsThrown);
+            return this.LegsByPlayer.Where(l => l.IsWon.OrElse(false)).Max(x => x.DartsThrown.Sum());
         }
 
         /// <summary>
@@ -271,9 +344,9 @@
         /// </summary>
         /// <param name="score">The score which the throwout advice will be given.</param>
         /// <returns>The throwout advice for this score.</returns>
-        public string GetThrowoutAdvice(int score)
+        private string GetThrowoutAdvice(int score)
         {
-            return null;
+            return "T20 T20 BULL";
         }
 
         /// <summary>

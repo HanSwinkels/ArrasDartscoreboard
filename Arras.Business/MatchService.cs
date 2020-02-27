@@ -1,5 +1,6 @@
 ﻿namespace Arras.Business
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Common;
@@ -21,12 +22,12 @@
         /// <summary>
         /// The match for which this service provides methods.
         /// </summary>
-        private readonly StandardMatch StandardMatch;
+        public StandardMatch StandardMatch;
 
         /// <summary>
-        /// The player service containing methods for players.
+        /// The player service of each player, containing all methods for the players.
         /// </summary>
-        private readonly PlayerService playerService;
+        public readonly List<PlayerService> playerServices;
 
         /// <summary>
         /// Initializes a new instance of <see cref="MatchService"/>.
@@ -34,28 +35,35 @@
         /// <param name="match">The match for which this instance is created.</param>
         public MatchService(StandardMatch match)
         {
-            this.MatchDatabase = new MatchRepository();
-            this.playerService = new PlayerService();
-
             this.StandardMatch = match;
+            foreach (var player in match.Players)
+            {
+                this.playerServices.Add(new PlayerService(player));
+            }
         }
+
+        /// <summary>
+        /// List of scores that a player is unable to throw.
+        /// </summary>
+        private readonly List<int> InvalidScores = new List<int>(){169, 166, 172, 173, 175, 176, 178, 179};
 
         /// <summary>
         /// Enters a score for the player whose at turn.
         /// </summary>
         /// <param name="score">The score to enter.</param>
-        public ScoreValidationType EnterScore(int score)
+        public ScoreValidationType EnterScore(int score, Player player)
         {
-            // TODO: Add checker for invalid values (e.g. > 180, 169, 159)
-            var playerAtTurn = this.GetTurn();
+            var playerService = this.playerServices.First(x => x.Player == player);
+            var remainingScore = playerService.GetRemainingScore(this.StandardMatch);
 
-            if (playerAtTurn.Score - score == 1 || playerAtTurn.Score - score < 0)
+            // Check if the score is valid.
+            if (InvalidScores.Exists(x => x == score) || score > 180 || remainingScore - score == 1 || remainingScore - score < 0)
                 return ScoreValidationType.Invalid;
 
-            playerAtTurn.Score -= score;
-            this.AddScore(score, playerAtTurn);
 
-            if (playerAtTurn.Score == 0)
+            this.AddScore(score, player);
+
+            if (remainingScore - score == 0)
                 return ScoreValidationType.EndsLeg;
 
             return ScoreValidationType.Valid;
@@ -68,10 +76,12 @@
         /// <returns>Whether the game is finished.</returns>
         public bool IsGameFinished(Player player)
         {
+            var playerService = this.playerServices.First(x => x.Player == player);
+
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
-                return this.playerService.GetAllStats(this.StandardMatch, player).Legs == this.StandardMatch.Legs;
+                return playerService.GetAllStats(this.StandardMatch).Legs == this.StandardMatch.Legs;
             else
-                return this.playerService.GetAllStats(this.StandardMatch, player).Sets == this.StandardMatch.Sets.Value;
+                return playerService.GetAllStats(this.StandardMatch).Sets == this.StandardMatch.Sets.Value;
         }
 
         /// <summary>
@@ -81,34 +91,63 @@
         /// Set the score of both players to the format.
         /// </summary>
         /// <param name="numDarts">The number of darts that took to finish the game.</param>
-        /// <param name="player">The player that won the leg.</param>
         /// <returns>The leg that was ended.</returns>
-        public Leg EndLeg(int numDarts, Player player)
+        public Leg EndLeg(int numDarts)
         {
-            this.GetLastLeg().LegByPlayers.First(p => p.PlayerId == player.Id.OrElse(player.Name)).DartsThrown -= (3 - numDarts);
-            var endedLeg = this.GetLastLeg();
+            var endedLeg = this.GetCurrentLeg();
+
+            var legByPlayer = endedLeg.LegByPlayers.First(p => p.Scores.Sum() == this.StandardMatch.Format);
+
+            // Correct the number of darts thrown depending on the number of darts the player finished with.
+            legByPlayer.DartsThrown[legByPlayer.DartsThrown.Count - 1] = numDarts;
+
+            // Set that the player has won this leg
+            legByPlayer.IsWon = true.ToMaybe();
+
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
-                this.StandardMatch.LegsPlayed.Value.Add(new Leg());
+                this.InitializeGame();
 
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Sets)
             {
                 // Check if this leg finishes a set
                 var legsWon = this.StandardMatch.SetsPlayed.Value.Last().Legs
-                    .Select(x => x.LegByPlayers.Where(l => l.PlayerId == player.Id.OrElse(player.Name))).First()
+                    .SelectMany(x => x.LegByPlayers.Where(l => l.PlayerId == legByPlayer.PlayerId))
                     .Count(p => p.IsWon.OrElse(false));
 
                 if (legsWon == 3)
                 {
-                    this.StandardMatch.SetsPlayed.Value.Add(new Set());
-                    this.StandardMatch.SetsPlayed.Value.Last().Legs = new List<Leg>();
+                    this.InitializeGame();
                 }
                 else
                 {
                     this.StandardMatch.SetsPlayed.Value.Last().Legs.Add(new Leg());
+                    this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
+
                 }
             }
 
             return endedLeg;
+        }
+
+        /// <summary>
+        /// Initializes the game
+        /// </summary>
+        public void InitializeGame()
+        {
+            if(this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
+            {
+                this.StandardMatch.LegsPlayed.Value.Add(new Leg());
+                this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
+            }
+            else
+            {
+                this.StandardMatch.SetsPlayed.Value.Add(new Set());
+                this.StandardMatch.SetsPlayed.Value.Last().Legs.Add(new Leg());
+                this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
+            }
+
+            
+
         }
 
         /// <summary>
@@ -118,7 +157,7 @@
         public Player GetTurn()
         {
             var numPlayers = this.StandardMatch.Players.Count;
-            var turnsInLeg = this.GetLastLeg().LegByPlayers.Select(x => x.Scores.Count).Sum();
+            var turnsInLeg = this.GetCurrentLeg().LegByPlayers.Select(x => x.Scores.Count).Sum();
 
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
             {
@@ -138,11 +177,47 @@
         /// Gets the last leg that is currently being played in this match.
         /// </summary>
         /// <returns>The last leg that is currently being played in this match.</returns>
-        public Leg GetLastLeg()
+        public Leg GetCurrentLeg()
         {
-            return this.StandardMatch.StandardMatchType == StandardMatchType.Legs
-                ? this.StandardMatch.LegsPlayed.Value.Last()
-                : this.StandardMatch.SetsPlayed.Value.Last().Legs.Last();
+            if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
+            {
+                if (this.StandardMatch.LegsPlayed.Value.Count <= 0)
+                    this.StandardMatch.LegsPlayed.Value.Add(new Leg());
+
+                return this.StandardMatch.LegsPlayed.Value.Last();
+            }
+            else
+            {
+                if (this.StandardMatch.SetsPlayed.Value.Last().Legs.Count <= 0)
+                    this.StandardMatch.SetsPlayed.Value.Last().Legs.Add(new Leg());
+
+                return this.StandardMatch.SetsPlayed.Value.Last().Legs.Last();
+            }
+        }
+
+        /// <summary>
+        /// Removes the current leg from the game.
+        /// </summary>
+        public void RemoveCurrentLeg()
+        {
+            if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
+            {
+                var indexLast = this.StandardMatch.LegsPlayed.Value.Count - 1;
+                this.StandardMatch.LegsPlayed.Value.RemoveAt(indexLast);
+
+            }
+            else
+            {
+                var indexLast = this.StandardMatch.SetsPlayed.Value.Last().Legs.Count - 1;
+                this.StandardMatch.SetsPlayed.Value.Last().Legs.RemoveAt(indexLast);
+
+                // If there are no legs left in de last set, remove this set that is empty.
+                if (this.StandardMatch.SetsPlayed.Value.Last().Legs.Count == 0)
+                {
+                    var indexLastSet = this.StandardMatch.SetsPlayed.Value.Count() - 1;
+                    this.StandardMatch.SetsPlayed.Value.RemoveAt(indexLastSet);
+                }
+            }
         }
 
         /// <summary>
@@ -152,11 +227,21 @@
         /// <param name="player">The player that threw this score.</param>
         public void AddScore(int score, Player player)
         {
-            var lastLegByPlayer = this.GetLastLeg().LegByPlayers
-                .First(x => x.PlayerId == player.Id.OrElse(player.Name));
+            var currentLegByPlayer = this.GetCurrentLegByPlayer(player);
 
-            lastLegByPlayer.Scores.Add(score);
-            lastLegByPlayer.DartsThrown += 3;
+            currentLegByPlayer.Scores.Add(score);
+            currentLegByPlayer.DartsThrown.Add(3);
+        }
+
+        /// <summary>
+        /// Gets the current leg of a specified player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public LegByPlayer GetCurrentLegByPlayer(Player player)
+        {
+            return this.GetCurrentLeg().LegByPlayers
+                .First(x => x.PlayerId == player.Id.OrElse(player.Name));
         }
 
         /// <summary>
@@ -197,6 +282,32 @@
             return this.StandardMatch.StandardMatchType == StandardMatchType.Legs
                 ? this.StandardMatch.LegsPlayed.Value.Count
                 : this.StandardMatch.SetsPlayed.Value.Select(x => x.Legs.Count).Sum();
+        }
+
+        /// <summary>
+        /// Will undo the last score entered in this the system.
+        /// </summary>
+        public void UndoTurn()
+        {
+            // TODO: When the game is undo-ed to the start just return.
+
+            // Get the player who was previous at turn
+            var indexPreviousPlayer = Math.Abs(this.StandardMatch.Players.IndexOf(this.GetTurn()) - 1) % this.StandardMatch.Players.Count;
+            var previousPlayer = this.StandardMatch.Players[indexPreviousPlayer];
+
+            var legByPlayerToUndo = this.GetCurrentLegByPlayer(previousPlayer);
+            if (legByPlayerToUndo.Scores.Count == 0)
+            {
+                // When no scores are played in the remove this leg and undo the last score.
+                this.RemoveCurrentLeg();
+                this.UndoTurn();
+            }
+            else
+            {
+                // Remove the last score from the list of scores added and remove the last item from darts thrown
+                legByPlayerToUndo.Scores.RemoveAt(legByPlayerToUndo.Scores.Count - 1);
+                legByPlayerToUndo.DartsThrown.RemoveAt(legByPlayerToUndo.DartsThrown.Count - 1);
+            }
         }
 
         /// <summary>

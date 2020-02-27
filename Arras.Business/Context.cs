@@ -13,10 +13,10 @@
         /// </summary>
         public void InitializeDatabase()
         {
-            using (var db = new DatabaseContext())
-            {
-                db.Database.Migrate();
-            }
+            //using (var db = new DatabaseContext())
+            //{
+            //    db.Database.Migrate();
+            //}
         }
     }
 }

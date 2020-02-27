@@ -1,12 +1,13 @@
 ﻿<UserControl
-    x:Class="Arras.Windows.Views.ReuseableComponents.Keyboard"
+    x:Class="Arras.Windows.Views.ReuseableComponents.Match.MatchEndLeg"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Arras.Windows.Views.ReuseableComponents"
+    xmlns:local="using:Arras.Windows.Views.ReuseableComponents.Match"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:reuse="using:Arras.Windows.Views.ReuseableComponents">
+    d:DesignHeight="300"
+    d:DesignWidth="250">
     <UserControl.Resources>
         <Style x:Name="keyboardStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
@@ -43,9 +44,17 @@
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource accentColorLight}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource primaryLightColor}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.20" Value="{ThemeResource primaryDarkColor}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -71,63 +80,18 @@
     </UserControl.Resources>
     <Grid Background="{ThemeResource keyboardBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height=".9*"/>
+            <RowDefinition Height=".5*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Background="Transparent" x:Name="ScoreInputBox" MaxLength="3" InputScope="TelephoneNumber" FontSize="32" BorderThickness="0" VerticalAlignment="Center" TextAlignment="Center"/>
-            <Grid Grid.Column="1">
-                <Rectangle Width="1" Fill="{ThemeResource secondaryTextColor}" HorizontalAlignment="Left" Margin="0,8"/>
-                <Button FontFamily="Century Gothic" Tapped="KeyboardClear_Tapped" Style="{StaticResource keyboardStyle}" Background="Transparent" Foreground="{ThemeResource accentColorDark}" FontWeight="Bold" Content="CLEAR" FontSize="18"/>
-            </Grid>
+        <Grid Grid.Row="0" Background="{ThemeResource accentColorDark}">
+            <TextBlock Foreground="{ThemeResource whiteColor}" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Winning dart number" FontSize="18" FontFamily="Century Gothic"/>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="1" SecondaryText="26" Grid.Column="0"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="2" SecondaryText="40" Grid.Column="1"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="3" SecondaryText="41" Grid.Column="2"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="4" SecondaryText="45" Grid.Column="3"/>
-        </Grid>
-        <Rectangle VerticalAlignment="Bottom" Grid.Row="1" Height="1" Fill="{ThemeResource secondaryTextColor}"/>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="5" SecondaryText="55" Grid.Column="0"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="6" SecondaryText="60" Grid.Column="1"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="7" SecondaryText="81" Grid.Column="2"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="8" SecondaryText="85" Grid.Column="3"/>
-        </Grid>
-        <Rectangle VerticalAlignment="Bottom" Grid.Row="2" Height="1" Fill="{ThemeResource secondaryTextColor}"/>
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button  Style="{StaticResource keyboardStyle}"  x:Name="KeyboardUndo" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
-                <TextBlock FontFamily="Century Gothic" Foreground="{ThemeResource accentColorDark}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Text="UNDO" FontSize="18"/>
-            </Button>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="9" SecondaryText="100" Grid.Column="1"/>
-            <reuse:KeyboardItem Tapped="KeyboardScore_Tapped" Text="0" SecondaryText="140" Grid.Column="2"/>
-            <Button Style="{StaticResource keyboardStyle}"  x:Name="KeyboardEnter" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Grid.Column="3">
-                <TextBlock FontFamily="Century Gothic" Foreground="{ThemeResource accentColorDark}" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Text="ENTER" FontSize="18"/>
-            </Button>
-        </Grid>
+        <Button Grid.Row="1" FontSize="24" Content="1" FontFamily="Century Gothic" Style="{StaticResource keyboardStyle}" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Grid.Row="1" VerticalAlignment="Bottom" Height="1" Fill="{ThemeResource secondaryTextColor}"/>
+        <Button Grid.Row="2" FontSize="24" Content="2" FontFamily="Century Gothic" Style="{StaticResource keyboardStyle}" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Grid.Row="2" VerticalAlignment="Bottom" Height="1" Fill="{ThemeResource secondaryTextColor}"/>
+        <Button Grid.Row="3" FontSize="24" Content="3" FontFamily="Century Gothic" Style="{StaticResource keyboardStyle}" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>

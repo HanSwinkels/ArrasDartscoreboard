@@ -6,9 +6,73 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource backgroundColor}">
 
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <Border Margin="20" Style="{ThemeResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="{ThemeResource primaryDarkColor}">
+                    <TextBlock FontSize="16" Text="Players" Foreground="{ThemeResource whiteColor}" Margin="6"/>
+                </Grid>
+                <Grid Grid.Row="1" Background="{ThemeResource whiteColor}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" FontSize="16" Text="Amount" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" FontSize="16" Text="Player 1" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" FontSize="16" Text="Player 2" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <ComboBox Grid.Column="1" Grid.Row ="0" HorizontalAlignment="Right" MinWidth="200" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <TextBox x:Name="NamePlayerOne" Grid.Column="1" Grid.Row ="1" HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <TextBox x:Name="NamePlayerTwo" Grid.Column="1" Grid.Row ="2" HorizontalAlignment="Stretch" MinWidth="200" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <!-- TODO Add option for more players -->
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Margin="20,0,20,20" Style="{ThemeResource CardBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Background="{ThemeResource primaryDarkColor}">
+                    <TextBlock FontSize="16" Text="Match" Foreground="{ThemeResource whiteColor}" Margin="6"/>
+                </Grid>
+                <Grid Grid.Row="1" Background="{ThemeResource whiteColor}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" FontSize="16" Text="Sudden death" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" FontSize="16" Text="Sets" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" FontSize="16" Text="Sets (First to)" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" FontSize="16" Text="Legs (First to)" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" FontSize="16" Text="Format" Foreground="{ThemeResource textColor}" Margin="6"/>
+                    <ToggleSwitch x:Name="SwitchSuddenDeath" Grid.Column="1" Grid.Row ="0" HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0" OffContent="" OnContent=""/>
+                    <ToggleSwitch IsOn="True" x:Name="SwitchSets" Grid.Column="1" Grid.Row ="1" HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0" OffContent="" OnContent=""/>
+                    <TextBox Text="2" x:Name="TextBoxSets" Grid.Column="1" Grid.Row ="2" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <TextBox Text="3" x:Name="TextBoxLegs" Grid.Column="1" Grid.Row ="3" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <TextBox Text="501" x:Name="TextBoxFormat" Grid.Column="1" Grid.Row ="4" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <!-- TODO Add option for more players -->
+                </Grid>
+            </Grid>
+        </Border>
+        <Button Margin="20,0" Click="StartMatch_Click" Grid.Row="0" Background="{ThemeResource primaryDarkColor}" FontWeight="Bold"  FontSize="16" Content="START" Foreground="{ThemeResource whiteColor}" HorizontalAlignment="Stretch"/>
+    </StackPanel>
 </Page>
