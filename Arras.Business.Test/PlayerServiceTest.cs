@@ -40,7 +40,7 @@ namespace Arras.Business.Test
         public void InitializeTest()
         {
             this.Player = new Player("PlayerOne", PlayerType.Normal);
-            this.Service = new PlayerService();
+            this.Service = new PlayerService(this.Player);
             var players = new List<Player>()
             {
                 new Player("PlayerOne", PlayerType.Normal),
@@ -97,7 +97,7 @@ namespace Arras.Business.Test
         [TestMethod]
         public void GetBasicStats()
         {
-            var stats = this.Service.GetBasicStats(this.Match, this.Player);
+            var stats = this.Service.GetBasicStats(this.Match);
 
             Assert.AreEqual(56.66, stats.Average);
             Assert.AreEqual(56.67, stats.AverageFirstNine);
@@ -115,7 +115,7 @@ namespace Arras.Business.Test
         [TestMethod]
         public void GetAllStats()
         {
-            var stats = this.Service.GetAllStats(this.Match, this.Player);
+            var stats = this.Service.GetAllStats(this.Match);
 
             Assert.AreEqual(56.66, stats.Average);
             Assert.AreEqual(2, stats.Legs);
