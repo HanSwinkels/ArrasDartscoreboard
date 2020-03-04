@@ -39,13 +39,13 @@
                 <ColumnDefinition Width=".7*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <reuse:MatchStatsItem x:Name="MatchStatsItemOne"/>
+            <reuse:MatchStatsItem Margin="20" x:Name="MatchStatsItemOne"/>
             <reuse:Keyboard x:Name="Keyboard" Grid.Column="1" Margin="0,-80,0,0"/>
             <Grid Visibility="Collapsed" x:Name="EndLegGrid" Grid.Column="1">
                 <Grid Margin="0,-80,0,0" Background="{ThemeResource overlayColor}"/>
                 <match:MatchEndLeg x:Name="MatchEndLeg" Margin="40"/>
             </Grid>
-            <reuse:MatchStatsItem x:Name="MatchStatsItemTwo" Grid.Column="2"/>
+            <reuse:MatchStatsItem Margin="20" x:Name="MatchStatsItemTwo" Grid.Column="2"/>
         </Grid>
     </Grid>
 
