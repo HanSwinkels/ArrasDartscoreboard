@@ -74,11 +74,29 @@ namespace Arras.Windows.Views.MatchItems
 
             this.matchService.InitializeGame();
 
-            this.MatchScoreItems.Add(MatchScoreItemOne);
-            this.MatchScoreItems.Add(MatchScoreItemTwo);
+            var numPlayers = this.matchService.StandardMatch.Players.Count();
 
+            this.MatchScoreItems.Add(MatchScoreItemOne);
             this.MatchStatsItems.Add(MatchStatsItemOne);
-            this.MatchStatsItems.Add(MatchStatsItemTwo);
+
+            if (numPlayers == 2)
+            {
+                this.MatchScoreItems.Add(MatchScoreItemTwo);
+                this.MatchStatsItems.Add(MatchStatsItemTwo);
+            }
+
+            if (numPlayers == 3)
+            {
+                //this.MatchScoreItems.Add(MatchScoreItemThree);
+                //this.MatchStatsItems.Add(MatchStatsItemThree);
+            }
+
+            if (numPlayers == 4)
+            {
+                //this.MatchScoreItems.Add(MatchScoreItemThree);
+                //this.MatchStatsItems.Add(MatchStatsItemThree);
+            }
+
 
             this.UpdateScoreItems();
 
