@@ -13,7 +13,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <!-- AVERAGES GRID -->
-        <Grid Row="0" Margin="20,8">
+        <Grid Row="0" Background="{ThemeResource whiteColor}" Margin="20,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -45,52 +45,54 @@
             </Grid>
         </Grid>
         <!-- SCORES GRID -->
-        <Grid Row="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="80+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
-                <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorDark}" Value="100" Margin="12,0"/>
-                <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="24" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
-            </Grid>
-            <Grid Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="100+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
-                <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorNormal}" Value="50" Margin="12,0"/>
-                <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="12" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
-            </Grid>
-            <Grid Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="140+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
-                <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorLight}" Value="40" Margin="12,0"/>
-                <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="4" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
-            </Grid>
-            <Grid Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="180" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
-                <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorDark}" Value="10" Margin="12,0"/>
-                <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="1" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
+        <Grid Row="1" Background="{ThemeResource whiteColor}" Margin="20,12">
+            <Grid Margin="0,12">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="80+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
+                    <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorDark}" Value="100" Margin="12,0"/>
+                    <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="24" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
+                </Grid>
+                <Grid Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="100+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
+                    <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorNormal}" Value="50" Margin="12,0"/>
+                    <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="12" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
+                </Grid>
+                <Grid Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="140+" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
+                    <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorLight}" Value="40" Margin="12,0"/>
+                    <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="4" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
+                </Grid>
+                <Grid Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="180" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Right"/>
+                    <ProgressBar Background="Transparent" VerticalAlignment="Stretch" Grid.Column="1" Foreground="{ThemeResource accentColorDark}" Value="10" Margin="12,0"/>
+                    <TextBlock Grid.Column="1" Margin="20,0,0,0" FontWeight="SemiBold" Foreground="{ThemeResource whiteColor}" Text="1" VerticalAlignment="Center" FontFamily="Century Gothic" HorizontalAlignment="Left"/>
+                </Grid>
             </Grid>
         </Grid>
         <!-- OTHER STATS GRID-->
-        <Grid Background="{ThemeResource whiteColor}" Row="2" Margin="20,8">
+        <Grid Background="{ThemeResource whiteColor}" Row="2" Margin="20,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
