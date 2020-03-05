@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arras.Windows
 {
+    using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Views.MenuItems;
     using Views.ReuseableComponents;
 
@@ -31,7 +32,6 @@ namespace Arras.Windows
         public MainPage()
         {
             this.InitializeComponent();
-            NavigationView.IsPaneOpen = true;
             InfoFrame.Navigate(typeof(HomeMenu));
             
         }
@@ -41,10 +41,12 @@ namespace Arras.Windows
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The arguments of the invoked item.</param>
-        private void ItemMenu_Invoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void MenuItem_Clicked(object sender, TappedRoutedEventArgs args)
         {
-            var invokedItem = args.InvokedItem;
-            switch (invokedItem.ToString())
+            var menuItem = sender as MenuMainItem;
+            var menuText = menuItem.FindChildByName("menuText") as TextBlock;
+
+            switch (menuText.Text)
             {
                 case "Home":
                     InfoFrame.Navigate(typeof(HomeMenu));
@@ -69,8 +71,6 @@ namespace Arras.Windows
                     break;
                 default: return;
             }
-
-            sender.IsPaneOpen = true;
         }
     }
 }

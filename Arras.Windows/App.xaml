@@ -27,6 +27,9 @@
         <SolidColorBrush Color="#FFFF8A80"   x:Name="accentColorLight"/>
         <SolidColorBrush Color="#FFFF5252"   x:Name="accentColorNormal"/>
 
+        <SolidColorBrush Color="#FF6a6a6a"   x:Name="menuHoverOver"/>
+
+
         <Style x:Key="CardBorderStyle" TargetType="Border">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="{ThemeResource whiteColor}" />

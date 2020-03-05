@@ -10,11 +10,11 @@
     Background="{ThemeResource backgroundColor}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="0.4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <NavigationView x:Name="NavigationView" CompositeMode="Inherit" IsPaneOpen="True" ItemInvoked="ItemMenu_Invoked"  IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+        <!--<NavigationView x:Name="NavigationView" CompositeMode="Inherit" IsPaneOpen="True" ItemInvoked="ItemMenu_Invoked"  IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItemHeader Content="Main" />
                 <NavigationViewItem Content="Home">
@@ -58,9 +58,9 @@
                 </NavigationViewItem>
                 <NavigationViewItemSeparator/>
             </NavigationView.MenuItems>
-        </NavigationView>
+        </NavigationView>-->
         <!--Menu item -->
-        <!--<Frame Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
+        <Frame Background="{ThemeResource matchBackgroundTop}" Name="MenuFrame" HorizontalAlignment="Stretch" RequestedTheme="Light" Grid.Column="0">
             <ScrollViewer>
                 <StackPanel Margin="40,24,40,12">
                     <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="Home"/>
@@ -72,7 +72,7 @@
                     <reuse:MenuMainItem Tapped="MenuItem_Clicked" Margin="0,0,0,8" MenuText="About"/>
                 </StackPanel>
             </ScrollViewer>
-        </Frame>-->
+        </Frame>
 
         <!-- Info item -->
         <Frame x:Name="InfoFrame" HorizontalAlignment="Stretch" Grid.Column="1">

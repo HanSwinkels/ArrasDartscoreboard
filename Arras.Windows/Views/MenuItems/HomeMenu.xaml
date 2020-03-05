@@ -48,7 +48,7 @@
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="1" Background="{ThemeResource primaryColor}">
+                <Grid Grid.Row="1" Background="{ThemeResource accentColorNormal}">
 
                 </Grid>
             </Grid>
