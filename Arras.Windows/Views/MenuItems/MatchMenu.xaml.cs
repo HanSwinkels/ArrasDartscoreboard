@@ -16,12 +16,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arras.Windows.Views.MenuItems
 {
+    using System.Collections.ObjectModel;
     using System.Runtime.CompilerServices;
     using Business;
     using Common.Match;
     using Common.Player;
     using Functional.Maybe;
     using MatchItems;
+    using Microsoft.Toolkit.Uwp.UI.Extensions;
     using static System.Int32;
 
     /// <summary>
@@ -29,9 +31,19 @@ namespace Arras.Windows.Views.MenuItems
     /// </summary>
     public sealed partial class MatchMenu : Page
     {
+        /// <summary>
+        /// A list 
+        /// </summary>
+        private ObservableCollection<Player> playersList = new ObservableCollection<Player>();
+
+        /// <summary>
+        /// Initializes the page.
+        /// </summary>
         public MatchMenu()
         {
             this.InitializeComponent();
+            playersListView.ItemsSource = playersList;
+            playersList.Add(new Player("", PlayerType.Normal));
         }
 
         /// <summary>
@@ -64,12 +76,40 @@ namespace Arras.Windows.Views.MenuItems
             var format = Parse(TextBoxFormat.Text);
 
             var players = new List<Player>();
-            players.Add(new Player(NamePlayerOne.Text, PlayerType.Normal));
-            players.Add(new Player(NamePlayerTwo.Text, PlayerType.Normal));
-
+            foreach (Player player in playersListView.Items)
+            {
+                players.Add(new Player(player.Name, PlayerType.Normal));
+            }
+          
             return isSets ? 
                 new MatchService(new StandardMatch(StandardMatchType.Sets, numSets.ToMaybe(), numLegs, format, players)) : 
                 new MatchService(new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, numLegs, format, players));
         }
+
+        /// <summary>
+        /// Adds a player to the list of players for the match.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            if (playersListView.Items.Count > 7)
+                return;
+
+            playersList.Add(new Player("", PlayerType.Normal));
+        }
+
+        /// <summary>
+        /// Deletes a player from the list view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeletePlayer_Click(object sender, RoutedEventArgs e)
+        {
+            var deleteButton = sender as Button;
+            var item = deleteButton.DataContext as Player;
+            playersList.Remove(item);
+        }
     }
+    
 }

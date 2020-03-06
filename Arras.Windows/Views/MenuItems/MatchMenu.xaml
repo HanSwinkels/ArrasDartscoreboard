@@ -22,25 +22,29 @@
                 <TextBlock FontSize="24" Text="Players" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" Margin="12"/>
             </Grid>
             <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="12">
-                <!-- Change to a list view to allow more than 2 players -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Player 1" Foreground="{ThemeResource textColor}" Margin="0,12"/>
-                    <TextBox FontFamily="Century Gothic" x:Name="NamePlayerOne" Grid.Column="1" HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12"/>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Player 1" Foreground="{ThemeResource textColor}" Margin="0,12"/>
-                    <TextBox FontFamily="Century Gothic" x:Name="NamePlayerTwo" Grid.Column="1" HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12"/>
-                </Grid>
+                <ListView x:Name="playersListView" SelectionMode="None" HorizontalContentAlignment="Stretch">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Player" Foreground="{ThemeResource textColor}" Margin="0,12"/>
+                                <TextBox Text="{Binding Name, Mode=TwoWay}" FontFamily="Century Gothic" Grid.Column="1" HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12"/>
+                                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18" Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <StackPanel Margin="0,12" Orientation="Horizontal">
-                    <Button Background="{ThemeResource accentColorDark}">
+                    <Button Click="AddPlayer_Click" Background="{ThemeResource accentColorDark}">
                         <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="ADD PLAYER" Foreground="{ThemeResource whiteColor}" Margin="0,6"/>
                     </Button>
                     <Button Margin="20,0,0,0" Background="{ThemeResource accentColorLight}">
@@ -86,5 +90,8 @@
                 </Grid>
             </Grid>
         </Grid>
+        <Button Click="StartMatch_Click" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Background="{ThemeResource accentColorDark}">
+            <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="START MATCH" Foreground="{ThemeResource whiteColor}" Margin="0,6"/>
+        </Button>
     </Grid>
 </Page>
