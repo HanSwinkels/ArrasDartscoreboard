@@ -74,6 +74,7 @@ namespace Arras.Windows.Views.MatchItems
                 throw new Exception("Parameter not of type MatchService");
 
             this.matchService.InitializeGame();
+            this.matchService.SetHasStarted();
 
             var numPlayers = this.matchService.StandardMatch.Players.Count();
 
@@ -84,18 +85,6 @@ namespace Arras.Windows.Views.MatchItems
             {
                 this.MatchScoreItems.Add(MatchScoreItemTwo);
                 this.MatchStatsItems.Add(MatchStatsItemTwo);
-            }
-
-            if (numPlayers == 3)
-            {
-                //this.MatchScoreItems.Add(MatchScoreItemThree);
-                //this.MatchStatsItems.Add(MatchStatsItemThree);
-            }
-
-            if (numPlayers == 4)
-            {
-                //this.MatchScoreItems.Add(MatchScoreItemThree);
-                //this.MatchStatsItems.Add(MatchStatsItemThree);
             }
 
 

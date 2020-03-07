@@ -45,7 +45,7 @@
         /// <summary>
         /// List of scores that a player is unable to throw.
         /// </summary>
-        private readonly List<int> InvalidScores = new List<int>(){169, 166, 172, 173, 175, 176, 178, 179};
+        private readonly List<int> InvalidScores = new List<int>() {169, 166, 172, 173, 175, 176, 178, 179};
 
         /// <summary>
         /// Enters a score for the player whose at turn.
@@ -57,7 +57,8 @@
             var remainingScore = playerService.GetRemainingScore(this.StandardMatch);
 
             // Check if the score is valid.
-            if (InvalidScores.Exists(x => x == score) || score > 180 || remainingScore - score == 1 || remainingScore - score < 0)
+            if (InvalidScores.Exists(x => x == score) || score > 180 || remainingScore - score == 1 ||
+                remainingScore - score < 0)
                 return ScoreValidationType.Invalid;
 
 
@@ -121,12 +122,28 @@
                 else
                 {
                     this.StandardMatch.SetsPlayed.Value.Last().Legs.Add(new Leg());
-                    this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
-
+                    this.StandardMatch.Players.ForEach(x =>
+                        this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
                 }
             }
 
+            this.SetHasStarted();
+          
+
             return endedLeg;
+        }
+
+        /// <summary>
+        /// Sets the value of HasStarted to true in the LegByPlayer of the player that started the leg.
+        /// </summary>
+        public void SetHasStarted()
+        {
+            // Set the value of HasStarted of the new leg to true for the player who started it.
+            var startingPlayer = this.GetStartingPlayer();
+            var legByPlayerStarted = this.GetCurrentLeg().LegByPlayers
+                .First(x => x.PlayerId == startingPlayer.Id.OrElse(startingPlayer.Name));
+
+            legByPlayerStarted.HasStarted = true;
         }
 
         /// <summary>
@@ -134,20 +151,19 @@
         /// </summary>
         public void InitializeGame()
         {
-            if(this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
+            if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
             {
                 this.StandardMatch.LegsPlayed.Value.Add(new Leg());
-                this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
+                this.StandardMatch.Players.ForEach(x =>
+                    this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
             }
             else
             {
                 this.StandardMatch.SetsPlayed.Value.Add(new Set());
                 this.StandardMatch.SetsPlayed.Value.Last().Legs.Add(new Leg());
-                this.StandardMatch.Players.ForEach(x => this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
+                this.StandardMatch.Players.ForEach(x =>
+                    this.GetCurrentLeg().LegByPlayers.Add(new LegByPlayer(x.Id.OrElse(x.Name))));
             }
-
-            
-
         }
 
         /// <summary>
@@ -169,7 +185,8 @@
 
                 return totalSets % numPlayers == 0
                     ? this.StandardMatch.Players.Skip((this.GetLegsInSet() + turnsInLeg) % numPlayers).First()
-                    : this.StandardMatch.Players.Skip((this.GetLegsInSet() + (numPlayers - 1) + turnsInLeg) % numPlayers).First();
+                    : this.StandardMatch.Players
+                        .Skip((this.GetLegsInSet() + (numPlayers - 1) + turnsInLeg) % numPlayers).First();
             }
         }
 
@@ -204,7 +221,6 @@
             {
                 var indexLast = this.StandardMatch.LegsPlayed.Value.Count - 1;
                 this.StandardMatch.LegsPlayed.Value.RemoveAt(indexLast);
-
             }
             else
             {
@@ -260,7 +276,8 @@
 
                 return totalSets % 2 == 0
                     ? this.StandardMatch.Players.Skip(this.GetLegsInSet() % this.StandardMatch.Players.Count).First()
-                    : this.StandardMatch.Players.Skip((this.GetLegsInSet() + 1) % this.StandardMatch.Players.Count).First();
+                    : this.StandardMatch.Players.Skip((this.GetLegsInSet() + 1) % this.StandardMatch.Players.Count)
+                        .First();
             }
         }
 
@@ -292,7 +309,8 @@
             // TODO: When the game is undo-ed to the start just return.
 
             // Get the player who was previous at turn
-            var indexPreviousPlayer = Math.Abs(this.StandardMatch.Players.IndexOf(this.GetTurn()) - 1) % this.StandardMatch.Players.Count;
+            var indexPreviousPlayer = Math.Abs(this.StandardMatch.Players.IndexOf(this.GetTurn()) - 1) %
+                                      this.StandardMatch.Players.Count;
             var previousPlayer = this.StandardMatch.Players[indexPreviousPlayer];
 
             var legByPlayerToUndo = this.GetCurrentLegByPlayer(previousPlayer);
@@ -322,7 +340,6 @@
         /// </summary>
         public void SaveMatch()
         {
-
         }
     }
 }
