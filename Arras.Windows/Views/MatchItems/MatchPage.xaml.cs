@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Arras.Windows.Views.MatchItems
 {
     using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
     using Business;
     using Common.Match;
     using Common.Player;
@@ -197,7 +198,7 @@ namespace Arras.Windows.Views.MatchItems
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void KeyboardEnter_Click(object sender, RoutedEventArgs e)
+        private async void KeyboardEnter_Click(object sender, RoutedEventArgs e)
         {
             var player = matchService.GetTurn();
 
@@ -225,8 +226,27 @@ namespace Arras.Windows.Views.MatchItems
             this.UpdateScoreItems();
             this.UpdateStatsItems();
 
+            player = this.matchService.GetTurn();
+            if (player.GetType() == typeof(BotPlayer))
+            {
+                await Task.Delay(500);
+
+                // TODO pass on the remaining score, so the bot never returns an invalid score.
+                scoreInputBox.Text = this.matchService.playerServices.First(x => x.Player == player).GenerateScore().ToString();
+
+                // Sleep for one second, to ensure a clear overview of the score from the bot, for the user.
+                await Task.Delay(500);
+
+                KeyboardEnter_Click(sender, e);
+            }
             Console.WriteLine("ENTER");
         }
+
+        private void sleep()
+        {
+
+        }
+        
         #endregion
 
         #region Turn Methods

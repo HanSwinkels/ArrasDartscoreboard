@@ -372,7 +372,36 @@
         /// <returns>A random score.</returns>
         public int GenerateScore()
         {
-            // TODO: Generate score based on the level of the bot. If not a bot throw exception.
+            // TODO: Generate score based on the level of the bot.
+            if(this.Player.PlayerType != PlayerType.Bot)
+                throw new Exception("Cannot generate a score for a player that is not a bot");
+
+            var bot = this.Player as BotPlayer;
+
+            switch (bot.Level)
+            {
+                case BotLevel.One:
+                    return 40;
+                case BotLevel.Two:
+                    return 40;
+                case BotLevel.Three:
+                    return 40;
+                case BotLevel.Four:
+                    return 40;
+                case BotLevel.Five:
+                    return 40;
+                case BotLevel.Six:
+                    return 40;
+                case BotLevel.Seven:
+                    return 40;
+                case BotLevel.Eight:
+                    return 40;
+                case BotLevel.Nine:
+                    return 40;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             return 0;
         }
     }
