@@ -95,10 +95,10 @@
                 HighestScore = this.GetHighestScore(),
                 Legs = this.GetNumberWonLegs(),
                 Sets = this.GetSetsWon(match),
-                OneEighties = this.GetScoresAbove(180),
-                Plus100 = this.GetScoresAbove(100),
-                Plus140 = this.GetScoresAbove(140),
-                Plus80 = this.GetScoresAbove(80),
+                OneEighties = this.GetScoresBetween(180,180),
+                Plus100 = this.GetScoresBetween(100,139),
+                Plus140 = this.GetScoresBetween(140,179),
+                Plus80 = this.GetScoresBetween(80,99),
                 WorstLeg = this.GetWorstLeg()
             };
         }
@@ -126,10 +126,10 @@
             //    HighestScore = this.GetHighestScore(),
             //    Legs = this.GetNumberWonLegs(),
             //    Sets = this.GetSetsWon(matches),
-            //    OneEighties = this.GetScoresAbove(180),
-            //    Plus100 = this.GetScoresAbove(100),
-            //    Plus140 = this.GetScoresAbove(140),
-            //    Plus80 = this.GetScoresAbove(80),
+            //    OneEighties = this.GetScoresBetween(180),
+            //    Plus100 = this.GetScoresBetween(100),
+            //    Plus140 = this.GetScoresBetween(140),
+            //    Plus80 = this.GetScoresBetween(80),
             //    WorstLeg = this.GetWorstLeg()
             //};
             return null;
@@ -148,10 +148,10 @@
                 Average = this.GetAverage(),
                 AverageFirstNine = this.GetAverageFirstNine(),
                 HighestScore = this.GetHighestScore(),
-                OneEighties = this.GetScoresAbove(180),
-                Plus100 = this.GetScoresAbove(100),
-                Plus140 = this.GetScoresAbove(140),
-                Plus80 = this.GetScoresAbove(80),
+                OneEighties = this.GetScoresBetween(180,180),
+                Plus100 = this.GetScoresBetween(100,139),
+                Plus140 = this.GetScoresBetween(140,179),
+                Plus80 = this.GetScoresBetween(80,99),
             };
         }
 
@@ -287,13 +287,14 @@
         }
 
         /// <summary>
-        /// Gets the number of scores greater than the provided score.
+        /// Gets the number of scores in the range of the lower and upper bound, equals included.
         /// </summary>
-        /// <param name="score">The score for which the scores must be higher.</param>
-        /// <returns>The number of scores that are greater than the provided score.</returns>
-        private int GetScoresAbove(int score)
+        /// <param name="lowerBound">The lower bound for which the scores will be higher or equal.</param>
+        /// <param name="upperBound">The upper bound for which the scores will be lower or equal.</param>
+        /// <returns>The number of scores that are between the provided bound.</returns>
+        private int GetScoresBetween(int lowerBound, int upperBound)
         {
-            return this.LegsByPlayer.Select(x => x.Scores.Count(s => s >= score)).Sum();
+            return this.LegsByPlayer.Select(x => x.Scores.Count(s => s >= lowerBound && s <= upperBound)).Sum();
         }
 
         /// <summary>
