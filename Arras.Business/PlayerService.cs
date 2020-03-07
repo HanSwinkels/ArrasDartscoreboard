@@ -365,5 +365,15 @@
         {
             return this.LegsByPlayer.Count(x => !x.HasStarted && x.IsWon.OrElse(false));
         }
+
+        /// <summary>
+        /// Generates a random score, based on the level of the bot player.
+        /// </summary>
+        /// <returns>A random score.</returns>
+        public int GenerateScore()
+        {
+            // TODO: Generate score based on the level of the bot. If not a bot throw exception.
+            return 0;
+        }
     }
 }

@@ -75,12 +75,8 @@ namespace Arras.Windows.Views.MenuItems
             var numLegs = Parse(TextBoxLegs.Text);
             var format = Parse(TextBoxFormat.Text);
 
-            var players = new List<Player>();
-            foreach (Player player in playersListView.Items)
-            {
-                players.Add(new Player(player.Name, PlayerType.Normal));
-            }
-          
+            var players = playersListView.Items.Cast<Player>().ToList();
+
             return isSets ? 
                 new MatchService(new StandardMatch(StandardMatchType.Sets, numSets.ToMaybe(), numLegs, format, players)) : 
                 new MatchService(new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, numLegs, format, players));
@@ -97,6 +93,19 @@ namespace Arras.Windows.Views.MenuItems
                 return;
 
             playersList.Add(new Player("", PlayerType.Normal));
+        }
+
+        /// <summary>
+        /// Adds a bot player to the list of players for the match.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddBot_Click(object sender, RoutedEventArgs e)
+        {
+            if (playersListView.Items.Count > 7)
+                return;
+
+            playersList.Add(new BotPlayer("", BotLevel.One));
         }
 
         /// <summary>

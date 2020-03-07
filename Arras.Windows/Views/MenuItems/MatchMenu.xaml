@@ -5,50 +5,88 @@
     xmlns:local="using:Arras.Windows.Views.MenuItems"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:Arras.Common.Player"
+    xmlns:utils="using:Arras.Windows.Utils"
     mc:Ignorable="d"
     Background="{ThemeResource backgroundColor}">
+    <Page.Resources>
+        <DataTemplate x:Key="PlayerTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Player"
+                           Foreground="{ThemeResource textColor}" Margin="0,12" />
+                <TextBox Text="{Binding Name, Mode=TwoWay}" FontFamily="Century Gothic" Grid.Column="1"
+                         HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12" />
+                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18"
+                        Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12" />
+            </Grid>
+        </DataTemplate>
 
-    <Grid >
+        <DataTemplate x:Key="BotPlayerTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Bot"
+                           Foreground="{ThemeResource textColor}" Margin="0,12" />
+                <ComboBox HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12"  FontFamily="Century Gothic"  Grid.Column="1" PlaceholderText="Select level" SelectedIndex="{Binding Level, Mode=TwoWay}">
+                    <x:String>Bot One (avg. 35-40)</x:String>
+                    <x:String>Bot Two (avg. 40-45)</x:String>
+                    <x:String>Bot Three (avg. 45-50)</x:String>
+                    <x:String>Bot Four (avg. 50-55)</x:String>
+                    <x:String>Bot Five (avg. 60-65)</x:String>
+                    <x:String>Bot Six (avg. 70-75)</x:String>
+                    <x:String>Bot Seven (avg. 77-85)</x:String>
+                    <x:String>Bot Eight (avg. 88-95)</x:String>
+                    <x:String>Bot Nine (avg. 98-105)</x:String>
+                </ComboBox>
+                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18"
+                        Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12" />
+            </Grid>
+        </DataTemplate>
+        <utils:PlayersDataTemplateSelector x:Key="PlayersDataTemplateSelector"
+                                           PlayerTemplate="{StaticResource PlayerTemplate}"
+                                           BotPlayerTemplate="{StaticResource BotPlayerTemplate}" />
+    </Page.Resources>
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid Margin="20" VerticalAlignment="Top" Background="{ThemeResource whiteColor}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="{ThemeResource accentColorNormal}">
-                <TextBlock FontSize="24" Text="Players" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" Margin="12"/>
+                <TextBlock FontSize="24" Text="Players" FontFamily="Century Gothic"
+                           Foreground="{ThemeResource whiteColor}" Margin="12" />
             </Grid>
             <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="12">
-                <ListView x:Name="playersListView" SelectionMode="None" HorizontalContentAlignment="Stretch">
+                <ListView ItemTemplateSelector="{StaticResource PlayersDataTemplateSelector}" x:Name="playersListView"
+                          SelectionMode="None" HorizontalContentAlignment="Stretch">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         </Style>
                     </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="16" Text="Player" Foreground="{ThemeResource textColor}" Margin="0,12"/>
-                                <TextBox Text="{Binding Name, Mode=TwoWay}" FontFamily="Century Gothic" Grid.Column="1" HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12"/>
-                                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18" Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
+
                 </ListView>
                 <StackPanel Margin="0,12" Orientation="Horizontal">
                     <Button Click="AddPlayer_Click" Background="{ThemeResource accentColorDark}">
-                        <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="ADD PLAYER" Foreground="{ThemeResource whiteColor}" Margin="0,6"/>
+                        <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="ADD PLAYER"
+                                   Foreground="{ThemeResource whiteColor}" Margin="0,6" />
                     </Button>
-                    <Button Margin="20,0,0,0" Background="{ThemeResource accentColorLight}">
-                        <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="ADD BOT" Foreground="{ThemeResource whiteColor}" Margin="0,6"/>
+                    <Button Click="AddBot_Click" Margin="20,0,0,0" Background="{ThemeResource accentColorLight}">
+                        <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="ADD BOT"
+                                   Foreground="{ThemeResource whiteColor}" Margin="0,6" />
                     </Button>
                 </StackPanel>
 
@@ -58,40 +96,55 @@
         <Grid Margin="20" VerticalAlignment="Top" Background="{ThemeResource whiteColor}" Column="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Background="{ThemeResource accentColorNormal}">
-                    <TextBlock FontSize="24" Text="Match" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" Margin="12"/>
+                    <TextBlock FontSize="24" Text="Match" FontFamily="Century Gothic"
+                               Foreground="{ThemeResource whiteColor}" Margin="12" />
                 </Grid>
                 <Grid Grid.Row="1" Background="{ThemeResource whiteColor}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="0" FontSize="16" Text="Sudden death" Foreground="{ThemeResource textColor}" Margin="6"/>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="1" FontSize="16" Text="Sets" Foreground="{ThemeResource textColor}" Margin="6"/>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="2" FontSize="16" Text="Sets (First to)" Foreground="{ThemeResource textColor}" Margin="6"/>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="3" FontSize="16" Text="Legs (First to)" Foreground="{ThemeResource textColor}" Margin="6"/>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="4" FontSize="16" Text="Format" Foreground="{ThemeResource textColor}" Margin="6"/>
-                    <ToggleSwitch FontFamily="Century Gothic" x:Name="SwitchSuddenDeath" Grid.Column="1" Grid.Row ="0" HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0" OffContent="" OnContent=""/>
-                    <ToggleSwitch FontFamily="Century Gothic" IsOn="True" x:Name="SwitchSets" Grid.Column="1" Grid.Row ="1" HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0" OffContent="" OnContent=""/>
-                    <TextBox FontFamily="Century Gothic" Text="2" x:Name="TextBoxSets" Grid.Column="1" Grid.Row ="2" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
-                    <TextBox FontFamily="Century Gothic" Text="3" x:Name="TextBoxLegs" Grid.Column="1" Grid.Row ="3" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
-                    <TextBox FontFamily="Century Gothic" Text="501" x:Name="TextBoxFormat" Grid.Column="1" Grid.Row ="4" HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6"/>
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="0" FontSize="16"
+                               Text="Sudden death" Foreground="{ThemeResource textColor}" Margin="6" />
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="1" FontSize="16" Text="Sets"
+                               Foreground="{ThemeResource textColor}" Margin="6" />
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="2" FontSize="16"
+                               Text="Sets (First to)" Foreground="{ThemeResource textColor}" Margin="6" />
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="3" FontSize="16"
+                               Text="Legs (First to)" Foreground="{ThemeResource textColor}" Margin="6" />
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="0" Grid.Row="4" FontSize="16" Text="Format"
+                               Foreground="{ThemeResource textColor}" Margin="6" />
+                    <ToggleSwitch FontFamily="Century Gothic" x:Name="SwitchSuddenDeath" Grid.Column="1" Grid.Row="0"
+                                  HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0" OffContent=""
+                                  OnContent="" />
+                    <ToggleSwitch FontFamily="Century Gothic" IsOn="True" x:Name="SwitchSets" Grid.Column="1"
+                                  Grid.Row="1" HorizontalAlignment="Right" BorderThickness="0,0,0,2" Margin="6,0"
+                                  OffContent="" OnContent="" />
+                    <TextBox FontFamily="Century Gothic" Text="2" x:Name="TextBoxSets" Grid.Column="1" Grid.Row="2"
+                             HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6" />
+                    <TextBox FontFamily="Century Gothic" Text="3" x:Name="TextBoxLegs" Grid.Column="1" Grid.Row="3"
+                             HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6" />
+                    <TextBox FontFamily="Century Gothic" Text="501" x:Name="TextBoxFormat" Grid.Column="1" Grid.Row="4"
+                             HorizontalAlignment="Right" MinWidth="100" BorderThickness="0,0,0,2" Margin="20,6" />
                     <!-- TODO Add option for more players -->
                 </Grid>
             </Grid>
         </Grid>
-        <Button Click="StartMatch_Click" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Background="{ThemeResource accentColorDark}">
-            <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="START MATCH" Foreground="{ThemeResource whiteColor}" Margin="0,6"/>
+        <Button Click="StartMatch_Click" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Margin="20" Background="{ThemeResource accentColorDark}">
+            <TextBlock FontFamily="Century Gothic" FontSize="16" FontWeight="ExtraBlack" Text="START MATCH"
+                       Foreground="{ThemeResource whiteColor}" Margin="0,6" />
         </Button>
     </Grid>
 </Page>
