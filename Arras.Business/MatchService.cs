@@ -215,7 +215,7 @@
         /// <summary>
         /// Removes the current leg from the game.
         /// </summary>
-        public void RemoveCurrentLeg()
+        private void RemoveCurrentLeg()
         {
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
             {
@@ -254,7 +254,7 @@
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public LegByPlayer GetCurrentLegByPlayer(Player player)
+        private LegByPlayer GetCurrentLegByPlayer(Player player)
         {
             return this.GetCurrentLeg().LegByPlayers
                 .First(x => x.PlayerId == player.Id.OrElse(player.Name));
@@ -311,6 +311,7 @@
             // Get the player who was previous at turn
             var indexPreviousPlayer = Math.Abs(this.StandardMatch.Players.IndexOf(this.GetTurn()) - 1) %
                                       this.StandardMatch.Players.Count;
+
             var previousPlayer = this.StandardMatch.Players[indexPreviousPlayer];
 
             var legByPlayerToUndo = this.GetCurrentLegByPlayer(previousPlayer);
