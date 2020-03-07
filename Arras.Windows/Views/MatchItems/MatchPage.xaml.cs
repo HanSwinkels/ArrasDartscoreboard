@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arras.Windows.Views.MatchItems
 {
+    using System.Collections.ObjectModel;
     using Business;
     using Common.Match;
     using Common.Player;
@@ -44,12 +45,12 @@ namespace Arras.Windows.Views.MatchItems
         /// <summary>
         /// List containing the <see cref="MatchScoreItem"/> of all players.
         /// </summary>
-        private readonly List<MatchScoreItem> MatchScoreItems = new List<MatchScoreItem>();
+        private readonly ObservableCollection<MatchScoreItem> MatchScoreItems = new ObservableCollection<MatchScoreItem>();
 
         /// <summary>
         /// List containing the <see cref="MatchStatsItem"/> of all players.
         /// </summary>
-        private readonly List<MatchStatsItem> MatchStatsItems = new List<MatchStatsItem>();
+        private readonly ObservableCollection<MatchStatsItem> MatchStatsItems = new ObservableCollection<MatchStatsItem>();
 
         /// <summary>
         /// Initializes this class.

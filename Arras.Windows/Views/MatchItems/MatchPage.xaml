@@ -26,7 +26,7 @@
             <reuse:MatchScoreItem x:Name="MatchScoreItemOne" Margin="0,20,0,0"/>
             <reuse:MatchScoreItem x:Name="MatchScoreItemTwo" Margin="0,20,0,0" Grid.Column="2"/>
         </Grid>
-        <Border Grid.Row="0" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="0,0,12,12" Background="{ThemeResource accentColorDark}">
+        <Border Grid.Row="0" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Top" Background="{ThemeResource accentColorDark}">
             <Grid>
                 <TextBlock Margin="20,8" Text="FIRST TO 5 SETS" FontSize="18" FontWeight="Black" Foreground="{ThemeResource whiteColor}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
