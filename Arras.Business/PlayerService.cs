@@ -52,7 +52,7 @@
 
             var score = match.Format - this.LegsByPlayer.Last().Scores.Sum();
 
-            var legsWon = 0;
+            int legsWon;
             if (match.StandardMatchType == StandardMatchType.Sets)
             {
                 legsWon = this.GetNumberWonLegsInSet(match);
@@ -60,7 +60,7 @@
             else
             {
                 legsWon = this.GetNumberWonLegs();
-;            }
+;           }
 
             return new PlayerScoreItem(
                 this.Player.Name, 
@@ -87,7 +87,7 @@
             return new PlayerMatchStats
             {
                 Average = this.GetAverage(),
-                AverageBestLeg = this.GetAverageBestLeg(),
+                AverageBestLeg = this.GetAverageBestLeg(match),
                 AverageFirstNine = this.GetAverageFirstNine(),
                 BestLeg = this.GetBestLeg(),
                 Breaks = this.GetBreaks(),
@@ -112,25 +112,27 @@
         /// <returns>The latest match stats for the player.</returns>
         public PlayerMatchStats GetAllStats(List<StandardMatch> matches)
         {
-            this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x))).ToList();
+            // TODO: Fix this method.
+            //this.LegsByPlayer = matches.SelectMany(x => this.GetLegsByPlayer(this.GetLegs(x))).ToList();
 
-            return new PlayerMatchStats
-            {
-                Average = this.GetAverage(),
-                AverageBestLeg = this.GetAverageBestLeg(),
-                AverageFirstNine = this.GetAverageFirstNine(),
-                BestLeg = this.GetBestLeg(),
-                Breaks = this.GetBreaks(),
-                HighestCheckout = this.GetHighestCheckout(),
-                HighestScore = this.GetHighestScore(),
-                Legs = this.GetNumberWonLegs(),
-                Sets = this.GetSetsWon(matches),
-                OneEighties = this.GetScoresAbove(180),
-                Plus100 = this.GetScoresAbove(100),
-                Plus140 = this.GetScoresAbove(140),
-                Plus80 = this.GetScoresAbove(80),
-                WorstLeg = this.GetWorstLeg()
-            };
+            //return new PlayerMatchStats
+            //{
+            //    Average = this.GetAverage(),
+            //    AverageBestLeg = this.GetAverageBestLeg(),
+            //    AverageFirstNine = this.GetAverageFirstNine(),
+            //    BestLeg = this.GetBestLeg(),
+            //    Breaks = this.GetBreaks(),
+            //    HighestCheckout = this.GetHighestCheckout(),
+            //    HighestScore = this.GetHighestScore(),
+            //    Legs = this.GetNumberWonLegs(),
+            //    Sets = this.GetSetsWon(matches),
+            //    OneEighties = this.GetScoresAbove(180),
+            //    Plus100 = this.GetScoresAbove(100),
+            //    Plus140 = this.GetScoresAbove(140),
+            //    Plus80 = this.GetScoresAbove(80),
+            //    WorstLeg = this.GetWorstLeg()
+            //};
+            return null;
         }
 
         /// <summary>
@@ -258,9 +260,11 @@
         /// Gets the three dart average of a player over its best leg.
         /// </summary>
         /// <returns>The three dart average of the player over the best leg.</returns>
-        private double GetAverageBestLeg()
+        private double GetAverageBestLeg(StandardMatch match)
         {
-            return Math.Round(this.LegsByPlayer.First().Scores.Sum() / (this.GetBestLeg() / 3.0), 2);
+            return this.GetBestLeg() == 0 ? 
+                0.00 : 
+                Math.Round(match.Format / (this.GetBestLeg() / 3.0), 2);
         }
 
         /// <summary>
