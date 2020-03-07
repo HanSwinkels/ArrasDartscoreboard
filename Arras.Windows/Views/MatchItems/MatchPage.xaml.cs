@@ -200,6 +200,11 @@ namespace Arras.Windows.Views.MatchItems
         private void KeyboardEnter_Click(object sender, RoutedEventArgs e)
         {
             var player = matchService.GetTurn();
+
+            // When no input is entered yet, just return.
+            if (scoreInputBox.Text == "")
+                return;
+
             var score = matchService.EnterScore(int.Parse(scoreInputBox.Text), player);
             scoreInputBox.Text = "";
 
