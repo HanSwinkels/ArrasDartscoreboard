@@ -11,7 +11,7 @@
     /// <summary>
     /// A class that provides methods regarding players.
     /// </summary>
-    public class PlayerService
+    public abstract class PlayerService
     {
         /// <summary>
         /// The player for this service.
@@ -23,7 +23,7 @@
         /// </summary>
         private List<LegByPlayer> LegsByPlayer = new List<LegByPlayer>();
 
-        public PlayerService(Player player)
+        protected PlayerService(Player player)
         {
             this.Player = player;
         }
@@ -43,7 +43,6 @@
         /// Gets the data that is displayed in the <see cref="Player"/>.
         /// </summary>
         /// <param name="match"></param>
-        /// <param name="player"></param>
         /// <returns></returns>
         public PlayerScoreItem GetPlayerScoreItem(StandardMatch match)
         {
@@ -76,7 +75,6 @@
         /// Gets the latest match stats for the player, except for a running leg.
         /// </summary>
         /// <param name="match">The match for which the stats have to be retrieved.</param>
-        /// <param name="player">The player for which to retrieve the stats.</param>
         /// <remarks>Does not take running legs into account.</remarks>
         /// <returns>The latest match stats for the player.</returns>
         public PlayerMatchStats GetAllStats(StandardMatch match)
@@ -107,7 +105,6 @@
         /// Gets the latest match stats for the player, except for a running leg.
         /// </summary>
         /// <param name="matches">The matches for which the stats have to be retrieved</param>
-        /// <param name="player">The player for which to retrieve the stats</param>
         /// <remarks>Does not take running legs into account.</remarks>
         /// <returns>The latest match stats for the player.</returns>
         public PlayerMatchStats GetAllStats(List<StandardMatch> matches)
@@ -221,9 +218,7 @@
                     .SelectMany(x => x);
 
                 if (legByPlayersInSet.Count(x => x.IsWon.OrElse(false)) == 3)
-                {
                     setsCount++;
-                }
             }
 
             return setsCount;
@@ -270,18 +265,11 @@
         /// <summary>
         /// Gets the three dart average of a player of the first nine darts of a leg.
         /// </summary>
-        /// <param name="legs">The list of legs a player has thrown.</param>
         /// <returns>The three dart average of the player of the first nine darts.</returns>
         private double GetAverageFirstNine()
         {
             var totalScore = this.LegsByPlayer.SelectMany(x => x.Scores.Take(3).Select(s => s)).Sum();
-            var totalDarts = this.LegsByPlayer.Select(x =>
-            {
-                if (x.DartsThrown.Sum() < 9)
-                    return x.DartsThrown.Sum();
-                else
-                    return 9;
-            }).Sum() / 3.0;
+            var totalDarts = this.LegsByPlayer.Select(x => x.DartsThrown.Sum() < 9 ? x.DartsThrown.Sum() : 9).Sum() / 3.0;
 
             return Math.Round(totalScore / totalDarts, 2);
         }
@@ -367,42 +355,10 @@
         }
 
         /// <summary>
-        /// Generates a random score, based on the level of the bot player.
+        /// Generate a random score, based on the level of the bot and the remaining score.
         /// </summary>
+        /// <param name="remainingScore">The remaining score of the player.</param>
         /// <returns>A random score.</returns>
-        public int GenerateScore()
-        {
-            // TODO: Generate score based on the level of the bot.
-            if(this.Player.PlayerType != PlayerType.Bot)
-                throw new Exception("Cannot generate a score for a player that is not a bot");
-
-            var bot = this.Player as BotPlayer;
-
-            switch (bot.Level)
-            {
-                case BotLevel.One:
-                    return 40;
-                case BotLevel.Two:
-                    return 40;
-                case BotLevel.Three:
-                    return 40;
-                case BotLevel.Four:
-                    return 40;
-                case BotLevel.Five:
-                    return 40;
-                case BotLevel.Six:
-                    return 40;
-                case BotLevel.Seven:
-                    return 40;
-                case BotLevel.Eight:
-                    return 40;
-                case BotLevel.Nine:
-                    return 40;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return 0;
-        }
+        public abstract int GenerateScore(int remainingScore);
     }
 }

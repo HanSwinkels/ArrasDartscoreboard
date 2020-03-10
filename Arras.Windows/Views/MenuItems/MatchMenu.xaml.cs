@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Arras.Windows.Views.MenuItems
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Runtime.CompilerServices;
     using Business;
@@ -43,7 +44,7 @@ namespace Arras.Windows.Views.MenuItems
         {
             this.InitializeComponent();
             playersListView.ItemsSource = playersList;
-            playersList.Add(new Player("", PlayerType.Normal));
+            playersList.Add(new NormalPlayer("", PlayerType.Normal));
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace Arras.Windows.Views.MenuItems
             if (playersListView.Items.Count > 7)
                 return;
 
-            playersList.Add(new Player("", PlayerType.Normal));
+            playersList.Add(new NormalPlayer("", PlayerType.Normal));
         }
 
         /// <summary>
@@ -105,7 +106,8 @@ namespace Arras.Windows.Views.MenuItems
             if (playersListView.Items.Count > 7)
                 return;
 
-            playersList.Add(new BotPlayer("", BotLevel.One));
+            var random = new Random();
+            playersList.Add(new BotPlayer(random.Next(100000).ToString(), BotLevel.One));
         }
 
         /// <summary>

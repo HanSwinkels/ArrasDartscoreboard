@@ -16,7 +16,7 @@
             {
                 case BotPlayer _:
                     return BotPlayerTemplate;
-                case Player _:
+                case NormalPlayer _:
                     return PlayerTemplate;
                 default:
                     return base.SelectTemplateCore(item);

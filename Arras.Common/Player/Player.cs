@@ -6,14 +6,14 @@
     /// <summary>
     /// A basic player
     /// </summary>
-    public class Player
+    public abstract class Player
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         /// <param name="name">The name of the player.</param>
         /// <param name="type">The type of player.</param>
-        public Player(string name, PlayerType type)
+        protected Player(string name, PlayerType type)
         {
             this.Name = name;
             this.PlayerType = type;

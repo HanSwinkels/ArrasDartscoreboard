@@ -15,19 +15,14 @@
     public class MatchService
     {
         /// <summary>
-        /// The database with matches.
-        /// </summary>
-        private MatchRepository MatchDatabase;
-
-        /// <summary>
         /// The match for which this service provides methods.
         /// </summary>
-        public StandardMatch StandardMatch;
+        public readonly StandardMatch StandardMatch;
 
         /// <summary>
         /// The player service of each player, containing all methods for the players.
         /// </summary>
-        public readonly List<PlayerService> playerServices = new List<PlayerService>();
+        public readonly List<PlayerService> PlayerServices = new List<PlayerService>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="MatchService"/>.
@@ -38,7 +33,10 @@
             this.StandardMatch = match;
             foreach (var player in match.Players)
             {
-                this.playerServices.Add(new PlayerService(player));
+                if(player.GetType() == typeof(BotPlayer))
+                    this.PlayerServices.Add(new BotPlayerService(player));
+                else
+                    this.PlayerServices.Add(new NormalPlayerService(player));
             }
         }
 
@@ -51,9 +49,10 @@
         /// Enters a score for the player whose at turn.
         /// </summary>
         /// <param name="score">The score to enter.</param>
+        /// <param name="player">The player for which to enter the score.</param>
         public ScoreValidationType EnterScore(int score, Player player)
         {
-            var playerService = this.playerServices.First(x => x.Player == player);
+            var playerService = this.PlayerServices.First(x => x.Player == player);
             var remainingScore = playerService.GetRemainingScore(this.StandardMatch);
 
             // Check if the score is valid.
@@ -64,10 +63,7 @@
 
             this.AddScore(score, player);
 
-            if (remainingScore - score == 0)
-                return ScoreValidationType.EndsLeg;
-
-            return ScoreValidationType.Valid;
+            return remainingScore - score == 0 ? ScoreValidationType.EndsLeg : ScoreValidationType.Valid;
         }
 
         /// <summary>
@@ -77,7 +73,7 @@
         /// <returns>Whether the game is finished.</returns>
         public bool IsGameFinished(Player player)
         {
-            var playerService = this.playerServices.First(x => x.Player == player);
+            var playerService = this.PlayerServices.First(x => x.Player == player);
 
             if (this.StandardMatch.StandardMatchType == StandardMatchType.Legs)
                 return playerService.GetAllStats(this.StandardMatch).Legs == this.StandardMatch.Legs;

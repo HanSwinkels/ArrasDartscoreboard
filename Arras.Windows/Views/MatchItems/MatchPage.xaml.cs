@@ -94,6 +94,12 @@ namespace Arras.Windows.Views.MatchItems
             // Initialize values.
             this.SetCurrentTurn();
             this.SetTurnStartLeg();
+
+            var player = this.matchService.GetTurn();
+
+            if (player.GetType() == typeof(BotPlayer))
+                EnterBotScore(player);
+
         }
 
         /// <summary>
@@ -103,7 +109,7 @@ namespace Arras.Windows.Views.MatchItems
         {
             for (var i = 0; i < MatchScoreItems.Count; i++)
             {
-                MatchScoreItems[i].DataContext = this.matchService.playerServices[i].GetPlayerScoreItem(this.matchService.StandardMatch);
+                MatchScoreItems[i].DataContext = this.matchService.PlayerServices[i].GetPlayerScoreItem(this.matchService.StandardMatch);
             }
         }
 
@@ -114,8 +120,22 @@ namespace Arras.Windows.Views.MatchItems
         {
             for (var i = 0; i < MatchStatsItems.Count; i++)
             {
-                MatchStatsItems[i].DataContext = this.matchService.playerServices[i].GetAllStats(this.matchService.StandardMatch);
+                MatchStatsItems[i].DataContext = this.matchService.PlayerServices[i].GetAllStats(this.matchService.StandardMatch);
             }
+        }
+
+        private async Task EnterBotScore(Player player)
+        {
+            await Task.Delay(500);
+
+            var playerService = this.matchService.PlayerServices.First(x => x.Player == player);
+            scoreInputBox.Text = playerService
+                .GenerateScore(playerService.GetRemainingScore(this.matchService.StandardMatch)).ToString();
+
+            await Task.Delay(500);
+
+            KeyboardEnter_Click(null, null);
+
         }
 
         #region Keyboard
@@ -222,29 +242,24 @@ namespace Arras.Windows.Views.MatchItems
                     break;
             }
 
+            // If the legs is won by the bot, automatically enter 3 darts finish.
+            if (player.PlayerType == PlayerType.Bot && score == ScoreValidationType.EndsLeg)
+            {
+                EndLegGrid.Visibility = Visibility.Collapsed;
+                this.matchService.EndLeg(3);
+            }
+
             this.SetCurrentTurn();
             this.UpdateScoreItems();
             this.UpdateStatsItems();
 
+            // When the current player at turn is a bot
             player = this.matchService.GetTurn();
-            if (player.GetType() == typeof(BotPlayer))
-            {
-                await Task.Delay(500);
 
-                // TODO pass on the remaining score, so the bot never returns an invalid score.
-                scoreInputBox.Text = this.matchService.playerServices.First(x => x.Player == player).GenerateScore().ToString();
+            if (player.PlayerType == PlayerType.Bot)
+                await EnterBotScore(player);
 
-                // Sleep for one second, to ensure a clear overview of the score from the bot, for the user.
-                await Task.Delay(500);
-
-                KeyboardEnter_Click(sender, e);
-            }
             Console.WriteLine("ENTER");
-        }
-
-        private void sleep()
-        {
-
         }
         
         #endregion
