@@ -142,6 +142,9 @@
     <Compile Include="Views\ReuseableComponents\Match\MatchEndLeg.xaml.cs">
       <DependentUpon>MatchEndLeg.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReuseableComponents\Match\MatchScoreItemWide.xaml.cs">
+      <DependentUpon>MatchScoreItemWide.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReuseableComponents\Match\MatchScoreItem.xaml.cs">
       <DependentUpon>MatchScoreItem.xaml</DependentUpon>
     </Compile>
@@ -203,6 +206,10 @@
     <Page Include="Views\ReuseableComponents\Match\MatchEndLeg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\Match\MatchScoreItemWide.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ReuseableComponents\Match\MatchScoreItem.xaml">
       <SubType>Designer</SubType>

@@ -44,14 +44,19 @@ namespace Arras.Windows.Views.MatchItems
         private MatchService matchService;
 
         /// <summary>
+        /// The number of players in the current match.
+        /// </summary>
+        private int numPlayers;
+
+        /// <summary>
         /// List containing the <see cref="MatchScoreItem"/> of all players.
         /// </summary>
-        private readonly ObservableCollection<MatchScoreItem> MatchScoreItems = new ObservableCollection<MatchScoreItem>();
+        private readonly List<UserControl> MatchScoreItems = new List<UserControl>();
 
         /// <summary>
         /// List containing the <see cref="MatchStatsItem"/> of all players.
         /// </summary>
-        private readonly ObservableCollection<MatchStatsItem> MatchStatsItems = new ObservableCollection<MatchStatsItem>();
+        private readonly List<MatchStatsItem> MatchStatsItems = new List<MatchStatsItem>();
 
         /// <summary>
         /// Initializes this class.
@@ -59,7 +64,6 @@ namespace Arras.Windows.Views.MatchItems
         public MatchPage()
         {
             this.InitializeComponent();
-
             this.SetUpKeyboard();
         }
 
@@ -74,20 +78,12 @@ namespace Arras.Windows.Views.MatchItems
             if (this.matchService == null)
                 throw new Exception("Parameter not of type MatchService");
 
+            numPlayers = this.matchService.StandardMatch.Players.Count();
+
             this.matchService.InitializeGame();
             this.matchService.SetHasStarted();
 
-            var numPlayers = this.matchService.StandardMatch.Players.Count();
-
-            this.MatchScoreItems.Add(MatchScoreItemOne);
-            this.MatchStatsItems.Add(MatchStatsItemOne);
-
-            if (numPlayers == 2)
-            {
-                this.MatchScoreItems.Add(MatchScoreItemTwo);
-                this.MatchStatsItems.Add(MatchStatsItemTwo);
-            }
-
+            this.SetStatsScoreItems();
 
             this.UpdateScoreItems();
 
@@ -103,13 +99,56 @@ namespace Arras.Windows.Views.MatchItems
         }
 
         /// <summary>
+        /// Initialize the stats and score items, depending on the number of players.
+        /// </summary>
+        private void SetStatsScoreItems()
+        {
+            switch (numPlayers)
+            {
+                case 1:
+                    this.MatchScoreItems.Add(MatchScoreItemWide);
+                    this.MatchStatsItems.Add(MatchStatsItemOne);
+
+                    TopRowMultiplePlayer.Visibility = Visibility.Visible;
+                    TopRowTwoPlayer.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    TopRowMultiplePlayer.Visibility = Visibility.Collapsed;
+                    TopRowTwoPlayer.Visibility = Visibility.Visible;
+
+                    this.MatchScoreItems.Add(MatchScoreItemOne);
+                    this.MatchStatsItems.Add(MatchStatsItemOne);
+                    this.MatchScoreItems.Add(MatchScoreItemTwo);
+                    this.MatchStatsItems.Add(MatchStatsItemTwo);
+                    break;
+                default:
+                    TopRowMultiplePlayer.Visibility = Visibility.Visible;
+                    TopRowTwoPlayer.Visibility = Visibility.Collapsed;
+
+                    this.MatchScoreItems.Add(MatchScoreItemWide);
+                    this.MatchStatsItems.Add(MatchStatsItemOne);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Initializes and updates the score item of both players
         /// </summary>
         private void UpdateScoreItems()
         {
-            for (var i = 0; i < MatchScoreItems.Count; i++)
+            if (numPlayers == 2)
             {
-                MatchScoreItems[i].DataContext = this.matchService.PlayerServices[i].GetPlayerScoreItem(this.matchService.StandardMatch);
+                for (var i = 0; i < MatchScoreItems.Count; i++)
+                {
+                    MatchScoreItems[i].DataContext = this.matchService.PlayerServices[i]
+                        .GetPlayerScoreItem(this.matchService.StandardMatch);
+                }
+            }
+            else
+            {
+                var player = this.matchService.GetTurn();
+                MatchScoreItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
+                    .GetPlayerScoreItem(this.matchService.StandardMatch);
             }
         }
 
@@ -118,9 +157,19 @@ namespace Arras.Windows.Views.MatchItems
         /// </summary>
         private void UpdateStatsItems()
         {
-            for (var i = 0; i < MatchStatsItems.Count; i++)
+            if (numPlayers == 2)
             {
-                MatchStatsItems[i].DataContext = this.matchService.PlayerServices[i].GetAllStats(this.matchService.StandardMatch);
+                for (var i = 0; i < MatchStatsItems.Count; i++)
+                {
+                    MatchStatsItems[i].DataContext = this.matchService.PlayerServices[i]
+                        .GetAllStats(this.matchService.StandardMatch);
+                }
+            }
+            else
+            {
+                var player = this.matchService.GetTurn();
+                MatchStatsItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
+                    .GetAllStats(this.matchService.StandardMatch);
             }
         }
 
