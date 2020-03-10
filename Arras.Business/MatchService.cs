@@ -33,9 +33,9 @@
             this.StandardMatch = match;
             foreach (var player in match.Players)
             {
-                if(player.GetType() == typeof(BotPlayer))
+                if(player.PlayerType == PlayerType.Bot)
                     this.PlayerServices.Add(new BotPlayerService(player));
-                else
+                else if (player.PlayerType == PlayerType.Normal)
                     this.PlayerServices.Add(new NormalPlayerService(player));
             }
         }

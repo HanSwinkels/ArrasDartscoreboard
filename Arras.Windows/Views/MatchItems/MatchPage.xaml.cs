@@ -97,7 +97,7 @@ namespace Arras.Windows.Views.MatchItems
 
             var player = this.matchService.GetTurn();
 
-            if (player.GetType() == typeof(BotPlayer))
+            if (player.PlayerType == PlayerType.Bot)
                 EnterBotScore(player);
 
         }

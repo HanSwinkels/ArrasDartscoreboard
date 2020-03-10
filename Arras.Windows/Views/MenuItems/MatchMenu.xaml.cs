@@ -44,7 +44,7 @@ namespace Arras.Windows.Views.MenuItems
         {
             this.InitializeComponent();
             playersListView.ItemsSource = playersList;
-            playersList.Add(new NormalPlayer("", PlayerType.Normal));
+            playersList.Add(new NormalPlayer(""));
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Arras.Windows.Views.MenuItems
             if (playersListView.Items.Count > 7)
                 return;
 
-            playersList.Add(new NormalPlayer("", PlayerType.Normal));
+            playersList.Add(new NormalPlayer(""));
         }
 
         /// <summary>
