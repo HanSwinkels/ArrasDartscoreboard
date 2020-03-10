@@ -21,8 +21,8 @@
                            Foreground="{ThemeResource textColor}" Margin="0,12" />
                 <TextBox Text="{Binding Name, Mode=TwoWay}" FontFamily="Century Gothic" Grid.Column="1"
                          HorizontalAlignment="Stretch" BorderThickness="0,0,0,2" Margin="20,12" />
-                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18"
-                        Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12" />
+                <Button BorderThickness="0" Background="Transparent" Click="DeletePlayer_Click" FontFamily="Segoe MDL2 Assets" Grid.Column="2" FontSize="18"
+                        Content="&#xE74D;" Foreground="{ThemeResource textColor}" Margin="0,12" />
             </Grid>
         </DataTemplate>
 
@@ -46,8 +46,8 @@
                     <x:String>Bot Eight (avg. 88-95)</x:String>
                     <x:String>Bot Nine (avg. 98-105)</x:String>
                 </ComboBox>
-                <Button Click="DeletePlayer_Click" FontFamily="Century Gothic" Grid.Column="2" FontSize="18"
-                        Content="X" FontWeight="ExtraBlack" Foreground="{ThemeResource textColor}" Margin="0,12" />
+                <Button BorderThickness="0" Background="Transparent" Click="DeletePlayer_Click" FontFamily="Segoe MDL2 Assets" Grid.Column="2" FontSize="18"
+                        Content="&#xE74D;" Foreground="{ThemeResource textColor}" Margin="0,12" />
             </Grid>
         </DataTemplate>
         <utils:PlayersDataTemplateSelector x:Key="PlayersDataTemplateSelector"
@@ -70,7 +70,7 @@
                            Foreground="{ThemeResource whiteColor}" Margin="12" />
             </Grid>
             <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="12">
-                <ListView ItemTemplateSelector="{StaticResource PlayersDataTemplateSelector}" x:Name="playersListView"
+                <ListView CanReorderItems="True" AllowDrop="True" CanDrag="True" CanDragItems="True" ItemTemplateSelector="{StaticResource PlayersDataTemplateSelector}" x:Name="playersListView"
                           SelectionMode="None" HorizontalContentAlignment="Stretch">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
