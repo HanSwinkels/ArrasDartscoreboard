@@ -9,6 +9,59 @@
     xmlns:match="using:Arras.Windows.Views.ReuseableComponents.Match"
     mc:Ignorable="d"
     Background="{ThemeResource matchBackgroundTop}">
+    <Page.Resources>
+        <Style x:Key="PlayerListViewStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}" />
+            <Setter Property="TabNavigation" Value="Local" />
+            <Setter Property="IsHoldingEnabled" Value="True" />
+            <Setter Property="Padding" Value="12,0,12,0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
+            <Setter Property="AllowDrop" Value="False" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="FocusVisualMargin" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter x:Name="Root" CheckBrush="{ThemeResource ListViewItemCheckBrush}"
+                                               ContentMargin="{TemplateBinding Padding}"
+                                               CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                                               ContentTransitions="{TemplateBinding ContentTransitions}"
+                                               CheckMode="{ThemeResource ListViewItemCheckMode}"
+                                               DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                                               DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                               DragBackground="{ThemeResource ListViewItemDragBackground}"
+                                               DragForeground="{ThemeResource ListViewItemDragForeground}"
+                                               FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                                               FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                               FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                               Control.IsTemplateFocusTarget="True"
+                                               PressedBackground="{ThemeResource accentColorNormal}"
+                                               PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}"
+                                               PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                                               PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}"
+                                               RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}"
+                                               ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                               RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}"
+                                               RevealBackground="{ThemeResource ListViewItemRevealBackground}"
+                                               SelectedForeground="{ThemeResource ListViewItemForegroundSelected}"
+                                               SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                               SelectedBackground="{ThemeResource accentColorNormal}"
+                                               SelectedPressedBackground="{ThemeResource accentColorNormal}"
+                                               SelectedPointerOverBackground="{ThemeResource accentColorNormal}"
+                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                        </ListViewItemPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,7 +74,7 @@
             SCORE ITEMS
             TWO PLAYERS 
         -->
-        <Grid Visibility="Visible" x:Name="TopRowTwoPlayer" Row="0" Background="{ThemeResource matchBackgroundTop}">
+        <Grid Visibility="Collapsed" x:Name="TopRowTwoPlayer" Row="0" Background="{ThemeResource matchBackgroundTop}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width=".7*" />
@@ -30,10 +83,11 @@
             <reuse:MatchScoreItem x:Name="MatchScoreItemOne" Margin="0,20,0,0" />
             <reuse:MatchScoreItem x:Name="MatchScoreItemTwo" Margin="0,20,0,0" Grid.Column="2" />
 
-            <Grid Grid.ColumnSpan="3" Background="{ThemeResource accentColorDark}" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid Grid.Column="0" Grid.ColumnSpan="3" Background="{ThemeResource accentColorDark}"
+                  HorizontalAlignment="Center" VerticalAlignment="Top">
                 <TextBlock Margin="20,8" Text="FIRST TO 5 SETS" FontSize="18" FontWeight="Black"
-                               Foreground="{ThemeResource whiteColor}" VerticalAlignment="Center"
-                               HorizontalAlignment="Center" />
+                           Foreground="{ThemeResource whiteColor}" VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
             </Grid>
         </Grid>
 
@@ -43,15 +97,72 @@
             SCORE ITEMS
             MULTIPLE   PLAYERS 
         -->
-        <Grid Visibility="Collapsed" x:Name="TopRowMultiplePlayer" Row="0" Background="{ThemeResource matchBackgroundTop}">
+        <Grid Visibility="Visible" x:Name="TopRowMultiplePlayer" Row="0"
+              Background="{ThemeResource matchBackgroundTop}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".5*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ListView>
+            <ListView Visibility="Collapsed" ItemContainerStyle="{StaticResource PlayerListViewStyle}" SelectionMode="Single"
+                      VerticalAlignment="Top" Margin="40" x:Name="PlayersListView">
+                <ListView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width=".8*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="22" Text="Player"
+                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
+                        <TextBlock FontFamily="Century Gothic" Grid.Column="1" FontSize="22" Text="Legs"
+                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
+                        <TextBlock FontFamily="Century Gothic" Grid.Column="2" FontSize="22" Text="Score"
+                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
+                        <TextBlock FontFamily="Century Gothic" Grid.Column="3" FontSize="22" Text="AVG"
+                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
 
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width=".8*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontFamily="Century Gothic" Grid.Column="0" FontSize="22" Text="{Binding Name}"
+                                       Foreground="{ThemeResource whiteColor}" Margin="0,12" />
+                            <TextBlock FontFamily="Century Gothic" Grid.Column="1" FontSize="22" Text="{Binding Legs}"
+                                       Foreground="{ThemeResource whiteColor}" Margin="12" />
+                            <TextBlock FontFamily="Century Gothic" Grid.Column="2" FontSize="22" Text="{Binding Score}"
+                                       Foreground="{ThemeResource whiteColor}" Margin="12" />
+                            <TextBlock FontFamily="Century Gothic" Grid.Column="3" FontSize="22"
+                                       Text="{Binding Average}"
+                                       Foreground="{ThemeResource whiteColor}" Margin="12" />
+
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-            <reuse:MatchScoreItemWide Grid.Column="1" x:Name="MatchScoreItemWide" Margin="0,20" />
+
+            <ListView Grid.Column="0" Visibility="Visible" ItemContainerStyle="{StaticResource PlayerListViewStyle}" SelectionMode="Single"
+                      VerticalAlignment="Top" Margin="40" x:Name="ScoreListView">
+                <ListView.Header>
+                    <TextBlock FontFamily="Century Gothic" Grid.Column="3" FontSize="22" Text="Scores"
+                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontFamily="Century Gothic" FontSize="22"
+                                       Text="1"
+                                       Foreground="{ThemeResource whiteColor}" Margin="12" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <reuse:MatchScoreItemWide Grid.Column="1" x:Name="MatchScoreItemWide" Margin="0,20,0,40"/>
         </Grid>
 
         <!--BOTTOM ROW - STATS AND KEYBOARD -->

@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,9 +17,7 @@ namespace Arras.Windows.Views.MatchItems
     using Common.Player;
     using global::Windows.UI.Text;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
-    using Newtonsoft.Json;
     using ReuseableComponents;
-    using Button = global::Windows.UI.Xaml.Controls.Button;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -59,6 +50,11 @@ namespace Arras.Windows.Views.MatchItems
         private readonly List<MatchStatsItem> MatchStatsItems = new List<MatchStatsItem>();
 
         /// <summary>
+        /// List of PlayerScoreItems used to update the players list, when <see cref="numPlayers"/> is greater than 2.
+        /// </summary>
+        private ObservableCollection<PlayerScoreItem> PlayerScoreItems = new ObservableCollection<PlayerScoreItem>();
+
+        /// <summary>
         /// Initializes this class.
         /// </summary>
         public MatchPage()
@@ -87,6 +83,9 @@ namespace Arras.Windows.Views.MatchItems
 
             this.UpdateScoreItems();
 
+            if (numPlayers > 2)
+                PlayersListView.ItemsSource = PlayerScoreItems;
+
             // Initialize values.
             this.SetCurrentTurn();
             this.SetTurnStartLeg();
@@ -95,7 +94,6 @@ namespace Arras.Windows.Views.MatchItems
 
             if (player.PlayerType == PlayerType.Bot)
                 EnterBotScore(player);
-
         }
 
         /// <summary>
@@ -111,6 +109,8 @@ namespace Arras.Windows.Views.MatchItems
 
                     TopRowMultiplePlayer.Visibility = Visibility.Visible;
                     TopRowTwoPlayer.Visibility = Visibility.Collapsed;
+                    ScoreListView.Visibility = Visibility.Visible;
+                    PlayersListView.Visibility = Visibility.Collapsed;
                     break;
                 case 2:
                     TopRowMultiplePlayer.Visibility = Visibility.Collapsed;
@@ -124,6 +124,8 @@ namespace Arras.Windows.Views.MatchItems
                 default:
                     TopRowMultiplePlayer.Visibility = Visibility.Visible;
                     TopRowTwoPlayer.Visibility = Visibility.Collapsed;
+                    ScoreListView.Visibility = Visibility.Collapsed;
+                    PlayersListView.Visibility = Visibility.Visible;
 
                     this.MatchScoreItems.Add(MatchScoreItemWide);
                     this.MatchStatsItems.Add(MatchStatsItemOne);
@@ -132,49 +134,15 @@ namespace Arras.Windows.Views.MatchItems
         }
 
         /// <summary>
-        /// Initializes and updates the score item of both players
+        /// Enter the score for the bot player
         /// </summary>
-        private void UpdateScoreItems()
-        {
-            if (numPlayers == 2)
-            {
-                for (var i = 0; i < MatchScoreItems.Count; i++)
-                {
-                    MatchScoreItems[i].DataContext = this.matchService.PlayerServices[i]
-                        .GetPlayerScoreItem(this.matchService.StandardMatch);
-                }
-            }
-            else
-            {
-                var player = this.matchService.GetTurn();
-                MatchScoreItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
-                    .GetPlayerScoreItem(this.matchService.StandardMatch);
-            }
-        }
-
-        /// <summary>
-        /// Initializes and updates the stats items of both players
-        /// </summary>
-        private void UpdateStatsItems()
-        {
-            if (numPlayers == 2)
-            {
-                for (var i = 0; i < MatchStatsItems.Count; i++)
-                {
-                    MatchStatsItems[i].DataContext = this.matchService.PlayerServices[i]
-                        .GetAllStats(this.matchService.StandardMatch);
-                }
-            }
-            else
-            {
-                var player = this.matchService.GetTurn();
-                MatchStatsItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
-                    .GetAllStats(this.matchService.StandardMatch);
-            }
-        }
-
+        /// <param name="player">A bot player for which to enter the score.</param>
+        /// <returns></returns>
         private async Task EnterBotScore(Player player)
         {
+            if (player.PlayerType == PlayerType.Bot)
+                throw new Exception("This player is not of type bot");
+
             await Task.Delay(500);
 
             var playerService = this.matchService.PlayerServices.First(x => x.Player == player);
@@ -184,7 +152,6 @@ namespace Arras.Windows.Views.MatchItems
             await Task.Delay(500);
 
             KeyboardEnter_Click(null, null);
-
         }
 
         #region Keyboard
@@ -310,7 +277,7 @@ namespace Arras.Windows.Views.MatchItems
 
             Console.WriteLine("ENTER");
         }
-        
+
         #endregion
 
         #region Turn Methods
@@ -333,7 +300,6 @@ namespace Arras.Windows.Views.MatchItems
             {
                 turnGrids[i].Visibility = i == indexPlayer ? Visibility.Visible : Visibility.Collapsed;
             }
-
         }
 
         /// <summary>
@@ -357,7 +323,106 @@ namespace Arras.Windows.Views.MatchItems
         }
 
         #endregion
+
+        #region Update
+
+        /// <summary>
+        /// Initializes and updates the score item of all players
+        /// </summary>
+        private void UpdateScoreItems()
+        {
+            switch (numPlayers)
+            {
+                case 1:
+                    this.UpdateScoreItems1();
+                    break;
+                case 2:
+                    this.UpdateScoreItems2();
+                    break;
+                default:
+                    this.UpdateScoreItemsMore();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Updates the top row items of the match page, for single player.
+        /// </summary>
+        private void UpdateScoreItems1()
+        {
+            var currentScoreItem = this.matchService.PlayerServices.First().GetPlayerScoreItem(this.matchService.StandardMatch);
+            MatchScoreItems.First().DataContext = currentScoreItem;
+
+            ScoreListView.ItemsSource = this.matchService.GetCurrentLeg().LegByPlayers.First().Scores;
+        }
+
+        /// <summary>
+        /// Updates the top row items of the match page, for two players.
+        /// </summary>
+        private void UpdateScoreItems2()
+        {
+            for (var i = 0; i < MatchScoreItems.Count; i++)
+            {
+                MatchScoreItems[i].DataContext = this.matchService.PlayerServices[i]
+                    .GetPlayerScoreItem(this.matchService.StandardMatch);
+            }
+        }
+
+        /// <summary>
+        /// Updates the top row items of the match page, for > 2 players.
+        /// </summary>
+        private void UpdateScoreItemsMore()
+        {
+            // When there are more than two players, update the score item to show the current player.
+            // And then update the listview holding the list of players.
+            var player = this.matchService.GetTurn();
+            var playerService = this.matchService.PlayerServices.First(x => x.Player == player);
+
+            var currentScoreItem = playerService.GetPlayerScoreItem(this.matchService.StandardMatch);
+            MatchScoreItems.First().DataContext = currentScoreItem;
+
+            var scoreItems = this.matchService.PlayerServices
+                .Select(x => x.GetPlayerScoreItem(this.matchService.StandardMatch)).ToList();
+
+            // When no items are in the list, first fill the list. Otherwise update values.
+            if (PlayerScoreItems.Count == 0)
+            {
+                for (int i = 0; i < scoreItems.Count(); i++)
+                {
+                    PlayerScoreItems.Add(scoreItems[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < scoreItems.Count(); i++)
+                {
+                    PlayerScoreItems[i] = scoreItems[i];
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Initializes and updates the stats items of all players
+        /// </summary>
+        private void UpdateStatsItems()
+        {
+            if (numPlayers == 2)
+            {
+                for (var i = 0; i < MatchStatsItems.Count; i++)
+                {
+                    MatchStatsItems[i].DataContext = this.matchService.PlayerServices[i]
+                        .GetAllStats(this.matchService.StandardMatch);
+                }
+            }
+            else
+            {
+                var player = this.matchService.GetTurn();
+                MatchStatsItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
+                    .GetAllStats(this.matchService.StandardMatch);
+            }
+        }
+
+        #endregion
     }
-
-
 }
