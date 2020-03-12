@@ -50,5 +50,10 @@
         /// </summary>
         Nine = 8,
 
+        /// <summary>
+        /// Level none.
+        /// </summary>
+        None = 9
+
     }
 }
