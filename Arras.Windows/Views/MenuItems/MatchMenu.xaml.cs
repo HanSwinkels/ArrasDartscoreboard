@@ -43,6 +43,9 @@ namespace Arras.Windows.Views.MenuItems
         public MatchMenu()
         {
             this.InitializeComponent();
+
+            SetsRadioButton.IsChecked = true;
+
             playersListView.ItemsSource = playersList;
             playersList.Add(new NormalPlayer(""));
         }
@@ -54,6 +57,10 @@ namespace Arras.Windows.Views.MenuItems
         /// <param name="e"></param>
         private void StartMatch_Click(object sender, RoutedEventArgs e)
         {
+            // First check if the match settings are valid
+            if (!this.AreNamesUnique() || !this.AreLevelsSelected() || playersList.Count == 0)
+                return;
+
             // Create a frame that displays the MatchPage.
             var frame = new Frame();
             frame.Navigate(typeof(MatchPage), CreateMatchService());
@@ -64,13 +71,50 @@ namespace Arras.Windows.Views.MenuItems
         }
 
         /// <summary>
+        /// Checks whether the names in the player list are unique.
+        /// </summary>
+        /// <returns>True when all names in the player list are unique.</returns>
+        private bool AreNamesUnique()
+        {
+            var names = playersList.Select(x => x.Name);
+            if (names.Distinct().Count() == names.Count())
+            {
+                ErrorTextNoUniqueNames.Visibility = Visibility.Collapsed;
+                return true;
+            }
+
+            ErrorTextNoUniqueNames.Visibility = Visibility.Visible;
+            return false;
+        }
+
+        /// <summary>
+        /// Check whether for all bots a level is selected.
+        /// </summary>
+        /// <returns>True when for all bots a level is selected.</returns>
+        private bool AreLevelsSelected()
+        {
+            var botPlayers = playersList.Where(x => x.PlayerType == PlayerType.Bot);
+            foreach (BotPlayer bot in botPlayers)
+            {
+                if (bot.Level == BotLevel.None)
+                {
+                    ErrorTextNoLevel.Visibility = Visibility.Visible;
+                }
+                return false;
+            }
+
+            ErrorTextNoLevel.Visibility = Visibility.Collapsed;
+            return true;
+        }
+
+        /// <summary>
         /// Generates a class with a information regarding a match.
         /// </summary>
         /// <returns></returns>
         private MatchService CreateMatchService()
         {
             var iSuddenDeath = SwitchSuddenDeath.IsOn;
-            var isSets = SwitchSets.IsOn;
+            var isSets = false;
 
             var numSets = Parse(TextBoxSets.Text);
             var numLegs = Parse(TextBoxLegs.Text);
@@ -78,9 +122,11 @@ namespace Arras.Windows.Views.MenuItems
 
             var players = playersListView.Items.Cast<Player>().ToList();
 
-            return isSets ? 
-                new MatchService(new StandardMatch(StandardMatchType.Sets, numSets.ToMaybe(), numLegs, format, players)) : 
-                new MatchService(new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, numLegs, format, players));
+            return isSets
+                ? new MatchService(new StandardMatch(StandardMatchType.Sets, numSets.ToMaybe(), numLegs, format,
+                    players))
+                : new MatchService(new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, numLegs, format,
+                    players));
         }
 
         /// <summary>
@@ -94,6 +140,14 @@ namespace Arras.Windows.Views.MenuItems
                 return;
 
             playersList.Add(new NormalPlayer(""));
+
+            if (playersListView.Items.Count > 2)
+            {
+                SetsRadioButton.IsChecked = false;
+                SetsRadioButton.IsEnabled = false;
+            }
+
+            ErrorTextNoPlayers.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -107,7 +161,9 @@ namespace Arras.Windows.Views.MenuItems
                 return;
 
             var random = new Random();
-            playersList.Add(new BotPlayer(random.Next(100000).ToString(), BotLevel.One));
+            playersList.Add(new BotPlayer(random.Next(100000).ToString(), BotLevel.None));
+
+            ErrorTextNoPlayers.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -120,7 +176,37 @@ namespace Arras.Windows.Views.MenuItems
             var deleteButton = sender as Button;
             var item = deleteButton.DataContext as Player;
             playersList.Remove(item);
+
+            if (playersList.Count == 0)
+            {
+                // Show text to indicate that this is invalid
+                ErrorTextNoPlayers.Visibility = Visibility.Visible;
+            }
+
+            if(playersList.Count <= 2)
+                SetsRadioButton.IsEnabled = true;
+
+        }
+
+        /// <summary>
+        /// Event for when the radio buttons of sets/legs are checked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetsLegs_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var radioBtnText = ((RadioButton)sender).Content.ToString();
+            if (radioBtnText == "SETS")
+            {
+                SetsNumberGrid.Visibility = Visibility.Visible;
+                LegsNumberGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                SetsNumberGrid.Visibility = Visibility.Collapsed;
+                LegsNumberGrid.Visibility = Visibility.Visible;
+            }
+
         }
     }
-    
 }
