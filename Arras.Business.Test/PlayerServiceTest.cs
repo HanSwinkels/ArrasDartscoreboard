@@ -39,12 +39,12 @@ namespace Arras.Business.Test
         [TestInitialize]
         public void InitializeTest()
         {
-            this.Player = new Player("PlayerOne", PlayerType.Normal);
-            this.Service = new PlayerService(this.Player);
+            this.Player = new NormalPlayer("PlayerOne");
+            this.Service = new NormalPlayerService(this.Player);
             var players = new List<Player>()
             {
-                new Player("PlayerOne", PlayerType.Normal),
-                new Player("PlayerTwo", PlayerType.Normal)
+                new NormalPlayer("PlayerOne"),
+                new NormalPlayer("PlayerTwo")
             };
 
             this.Match = new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, 6, 501, players);
