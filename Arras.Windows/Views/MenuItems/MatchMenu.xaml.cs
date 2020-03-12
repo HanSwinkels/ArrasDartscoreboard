@@ -70,6 +70,7 @@ namespace Arras.Windows.Views.MenuItems
             matchWindow.Activate();
         }
 
+        #region Validation
         /// <summary>
         /// Checks whether the names in the player list are unique.
         /// </summary>
@@ -106,6 +107,8 @@ namespace Arras.Windows.Views.MenuItems
             ErrorTextNoLevel.Visibility = Visibility.Collapsed;
             return true;
         }
+        #endregion
+
 
         /// <summary>
         /// Generates a class with a information regarding a match.
@@ -114,7 +117,7 @@ namespace Arras.Windows.Views.MenuItems
         private MatchService CreateMatchService()
         {
             var iSuddenDeath = SwitchSuddenDeath.IsOn;
-            var isSets = false;
+            var isSets = SetsRadioButton.IsChecked.GetValueOrDefault(false);
 
             var numSets = Parse(TextBoxSets.Text);
             var numLegs = Parse(TextBoxLegs.Text);
@@ -144,6 +147,7 @@ namespace Arras.Windows.Views.MenuItems
             if (playersListView.Items.Count > 2)
             {
                 SetsRadioButton.IsChecked = false;
+                LegsRadioButton.IsChecked = true;
                 SetsRadioButton.IsEnabled = false;
             }
 

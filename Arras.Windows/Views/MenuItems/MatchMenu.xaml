@@ -194,7 +194,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <RadioButton x:Name="SetsRadioButton" Checked="SetsLegs_OnChecked" IsChecked="False" FontFamily="Century Gothic" FontWeight="Bold" Foreground="{ThemeResource whiteColor}" Content="SETS" Style="{ThemeResource SetsLegsRadioButtonStyle}" GroupName="SetsLegs" Grid.Column="0" HorizontalAlignment="Stretch"/>
-                        <RadioButton Checked="SetsLegs_OnChecked" IsChecked="False" FontFamily="Century Gothic" FontWeight="Bold" Foreground="{ThemeResource whiteColor}" Content="LEGS" Style="{ThemeResource SetsLegsRadioButtonStyle}" GroupName="SetsLegs" Grid.Column="1" HorizontalAlignment="Stretch"/>
+                        <RadioButton  x:Name="LegsRadioButton" Checked="SetsLegs_OnChecked" IsChecked="False" FontFamily="Century Gothic" FontWeight="Bold" Foreground="{ThemeResource whiteColor}" Content="LEGS" Style="{ThemeResource SetsLegsRadioButtonStyle}" GroupName="SetsLegs" Grid.Column="1" HorizontalAlignment="Stretch"/>
                     </Grid>
                     <Grid Grid.Row="1" x:Name="SetsNumberGrid">
                         <Grid.ColumnDefinitions>
