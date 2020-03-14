@@ -109,12 +109,22 @@ namespace Arras.Windows.Views.MatchItems
 
                     TopRowMultiplePlayer.Visibility = Visibility.Visible;
                     TopRowTwoPlayer.Visibility = Visibility.Collapsed;
-                    ScoreListView.Visibility = Visibility.Visible;
+                    ScoresGrid.Visibility = Visibility.Visible;
                     PlayersListView.Visibility = Visibility.Collapsed;
+                    MatchChartItem.Visibility = Visibility.Visible;
+                    MatchStatsItemTwo.Visibility = Visibility.Collapsed;
+
+                    Keyboard.Margin = new Thickness(0,-40,0,0);
+                    EndLegGrid.Margin = new Thickness(0, -40, 0, 0);
                     break;
                 case 2:
                     TopRowMultiplePlayer.Visibility = Visibility.Collapsed;
                     TopRowTwoPlayer.Visibility = Visibility.Visible;
+                    MatchChartItem.Visibility = Visibility.Collapsed;
+                    MatchStatsItemTwo.Visibility = Visibility.Visible;
+
+                    Keyboard.Margin = new Thickness(0, -70, 0, 0);
+                    EndLegGrid.Margin = new Thickness(0, -70, 0, 0);
 
                     this.MatchScoreItems.Add(MatchScoreItemOne);
                     this.MatchStatsItems.Add(MatchStatsItemOne);
@@ -124,8 +134,13 @@ namespace Arras.Windows.Views.MatchItems
                 default:
                     TopRowMultiplePlayer.Visibility = Visibility.Visible;
                     TopRowTwoPlayer.Visibility = Visibility.Collapsed;
-                    ScoreListView.Visibility = Visibility.Collapsed;
+                    ScoresGrid.Visibility = Visibility.Collapsed;
                     PlayersListView.Visibility = Visibility.Visible;
+                    MatchChartItem.Visibility = Visibility.Visible;
+                    MatchStatsItemTwo.Visibility = Visibility.Collapsed;
+
+                    Keyboard.Margin = new Thickness(0, -40, 0, 0);
+                    EndLegGrid.Margin = new Thickness(0, -40, 0, 0);
 
                     this.MatchScoreItems.Add(MatchScoreItemWide);
                     this.MatchStatsItems.Add(MatchStatsItemOne);
@@ -421,6 +436,14 @@ namespace Arras.Windows.Views.MatchItems
                 MatchStatsItems.First().DataContext = this.matchService.PlayerServices.First(x => x.Player == player)
                     .GetAllStats(this.matchService.StandardMatch);
             }
+        }
+
+        /// <summary>
+        /// Update the charts with the most recent data
+        /// </summary>
+        private void UpdateCharts()
+        {
+            // TODO: Implement method
         }
 
         #endregion

@@ -148,25 +148,32 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ListView Grid.Column="0" Visibility="Visible" ItemContainerStyle="{StaticResource PlayerListViewStyle}" SelectionMode="Single"
-                      VerticalAlignment="Top" Margin="40" x:Name="ScoreListView">
-                <ListView.Header>
-                    <TextBlock FontFamily="Century Gothic" Grid.Column="3" FontSize="22" Text="Scores"
-                                   Foreground="{ThemeResource whiteColor}" Margin="12" FontWeight="SemiBold" />
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock FontFamily="Century Gothic" FontSize="22"
-                                       Text="1"
-                                       Foreground="{ThemeResource whiteColor}" Margin="12" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid Grid.Column="0" Visibility="Visible" x:Name="ScoresGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock FontFamily="Century Gothic" Grid.Row="0" FontSize="22" Text="Scores"
+                           Foreground="{ThemeResource whiteColor}" Margin="40,40,40,12" FontWeight="SemiBold" />
+                <ListView Background="Red" Grid.Row="1" VerticalAlignment="Top" Margin="40,0" x:Name="ScoreListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="Red">
+                                <TextBlock FontFamily="Century Gothic" FontSize="22"
+                                           Text="{Binding}"
+                                           Foreground="{ThemeResource whiteColor}" Margin="12,6" />
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+           
             <reuse:MatchScoreItemWide Grid.Column="1" x:Name="MatchScoreItemWide" Margin="0,20,0,40"/>
         </Grid>
 
         <!--BOTTOM ROW - STATS AND KEYBOARD -->
-        <Grid Row="1" Background="{ThemeResource backgroundColor}">
+        <Grid Row="1" Background="{ThemeResource matchBackgroundBottom}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width=".7*" />
@@ -178,7 +185,8 @@
                 <Grid Margin="0,-70,0,0" Background="{ThemeResource overlayColor}" />
                 <match:MatchEndLeg x:Name="MatchEndLeg" Margin="40" />
             </Grid>
-            <reuse:MatchStatsItem Margin="20" x:Name="MatchStatsItemTwo" Grid.Column="2" />
+            <reuse:MatchStatsItem Margin="20" Visibility="Collapsed" x:Name="MatchStatsItemTwo" Grid.Column="2" />
+            <match:MatchChartsItem Margin="20" Visibility="Collapsed" x:Name="MatchChartItem" Grid.Column="2" />
         </Grid>
     </Grid>
 
