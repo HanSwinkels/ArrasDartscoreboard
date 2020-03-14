@@ -116,7 +116,7 @@ namespace Arras.Windows.Views.MenuItems
         /// <returns></returns>
         private MatchService CreateMatchService()
         {
-            var iSuddenDeath = SwitchSuddenDeath.IsOn;
+            var iSuddenDeath = SuddenDeathOnRadioButton.IsChecked.GetValueOrDefault(false);
             var isSets = SetsRadioButton.IsChecked.GetValueOrDefault(false);
 
             var numSets = Parse(TextBoxSets.Text);
