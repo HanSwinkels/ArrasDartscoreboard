@@ -139,6 +139,9 @@
     <Compile Include="Views\ReuseableComponents\KeyboardItem.xaml.cs">
       <DependentUpon>KeyboardItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReuseableComponents\Match\MatchChartsItem.xaml.cs">
+      <DependentUpon>MatchChartsItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReuseableComponents\Match\MatchEndLeg.xaml.cs">
       <DependentUpon>MatchEndLeg.xaml</DependentUpon>
     </Compile>
@@ -200,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReuseableComponents\KeyboardItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\Match\MatchChartsItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
