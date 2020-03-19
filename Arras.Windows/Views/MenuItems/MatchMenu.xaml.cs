@@ -144,15 +144,39 @@ namespace Arras.Windows.Views.MenuItems
 
             playersList.Add(new NormalPlayer(""));
 
-            if (playersListView.Items.Count > 2)
-            {
-                SetsRadioButton.IsChecked = false;
-                LegsRadioButton.IsChecked = true;
-                SetsRadioButton.IsEnabled = false;
-            }
+            this.PlayersCountChanged();
+
 
             ErrorTextNoPlayers.Visibility = Visibility.Collapsed;
         }
+
+        private void PlayersCountChanged()
+        {
+            if (playersList.Count == 0)
+            {
+                // Show text to indicate that this is invalid
+                ErrorTextNoPlayers.Visibility = Visibility.Visible;
+            } 
+
+            if (playersList.Count <= 2)
+            {
+                SetsRadioButton.IsEnabled = true;
+                SuddenDeathOnRadioButton.IsEnabled = true;
+            }
+            else if (playersListView.Items.Count > 2)
+            {
+                SetsRadioButton.IsChecked = false;
+                LegsRadioButton.IsChecked = true;
+
+                SuddenDeathOnRadioButton.IsChecked = false;
+                SuddenDeathOffRadioButton.IsChecked = true;
+
+                SetsRadioButton.IsEnabled = false;
+                SuddenDeathOnRadioButton.IsEnabled = false;
+
+            }
+        }
+
 
         /// <summary>
         /// Adds a bot player to the list of players for the match.
@@ -166,6 +190,8 @@ namespace Arras.Windows.Views.MenuItems
 
             var random = new Random();
             playersList.Add(new BotPlayer(random.Next(100000).ToString(), BotLevel.None));
+
+            this.PlayersCountChanged();
 
             ErrorTextNoPlayers.Visibility = Visibility.Collapsed;
         }
@@ -181,15 +207,7 @@ namespace Arras.Windows.Views.MenuItems
             var item = deleteButton.DataContext as Player;
             playersList.Remove(item);
 
-            if (playersList.Count == 0)
-            {
-                // Show text to indicate that this is invalid
-                ErrorTextNoPlayers.Visibility = Visibility.Visible;
-            }
-
-            if(playersList.Count <= 2)
-                SetsRadioButton.IsEnabled = true;
-
+            this.PlayersCountChanged();
         }
 
         /// <summary>
