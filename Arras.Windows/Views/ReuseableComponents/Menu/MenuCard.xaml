@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{ThemeResource accentColorNormal}">
             <StackPanel VerticalAlignment="Center">
-                <TextBlock FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" FontSize="24" Margin="20,6" HorizontalAlignment="Left" Text="{x:Bind TopPrimaryText}"/>
+                <TextBlock FontWeight="SemiBold" FontFamily="Century Gothic" Foreground="{ThemeResource whiteColor}" FontSize="24" Margin="20,6" HorizontalAlignment="Left" Text="{x:Bind TopPrimaryText}"/>
                 <TextBlock FontFamily="Century Gothic" TextWrapping="Wrap" Foreground="{ThemeResource whiteColor}" FontWeight="Light" FontSize="18" Margin="20,0" HorizontalAlignment="Left" Text="{x:Bind TopSecondaryText}"/>
             </StackPanel>
         </Grid>
