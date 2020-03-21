@@ -38,8 +38,8 @@
         {
             this.Players = new List<Player>()
             {
-                new Player("PlayerOne", PlayerType.Normal),
-                new Player("PlayerTwo", PlayerType.Normal)
+                new NormalPlayer("PlayerOne"),
+                new NormalPlayer("PlayerTwo")
             };
             this.LegsMatch = new StandardMatch(StandardMatchType.Legs, Maybe<int>.Nothing, 6, 501, this.Players);
             this.SetsMatch = new StandardMatch(StandardMatchType.Sets, 3.ToMaybe(), 6, 501, this.Players);
