@@ -74,13 +74,14 @@
             SCORE ITEMS
             TWO PLAYERS 
         -->
-        <Grid Visibility="Collapsed" x:Name="TopRowTwoPlayer" Row="0" Background="{ThemeResource matchBackgroundTop}">
+        <Grid Visibility="Visible" x:Name="TopRowTwoPlayer" Row="0" Background="{ThemeResource matchBackgroundTop}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width=".7*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <reuse:MatchScoreItem x:Name="MatchScoreItemOne" Margin="0,20,0,0" />
+            <match:MatchTimeline x:Name="MatchTimeline" Grid.Column="1" Margin="20,60"/>
             <reuse:MatchScoreItem x:Name="MatchScoreItemTwo" Margin="0,20,0,0" Grid.Column="2" />
 
             <Grid Grid.Column="0" Grid.ColumnSpan="3" Background="{ThemeResource accentColorDark}"
@@ -97,7 +98,7 @@
             SCORE ITEMS
             MULTIPLE   PLAYERS 
         -->
-        <Grid Visibility="Visible" x:Name="TopRowMultiplePlayer" Row="0"
+        <Grid Visibility="Collapsed" x:Name="TopRowMultiplePlayer" Row="0"
               Background="{ThemeResource matchBackgroundTop}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".5*" />

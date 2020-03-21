@@ -154,6 +154,9 @@
     <Compile Include="Views\ReuseableComponents\Match\MatchStatsItem.xaml.cs">
       <DependentUpon>MatchStatsItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReuseableComponents\Match\MatchTimeline.xaml.cs">
+      <DependentUpon>MatchTimeline.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReuseableComponents\Menu\MenuCard.xaml.cs">
       <DependentUpon>MenuCard.xaml</DependentUpon>
     </Compile>
@@ -223,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReuseableComponents\Match\MatchStatsItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReuseableComponents\Match\MatchTimeline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
